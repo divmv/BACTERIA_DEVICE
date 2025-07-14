@@ -6,13 +6,15 @@ from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.uix.checkbox import CheckBox
 from DataClasses import DeviceFlags
-from ModeManager import ModeManager
+from ModeManager import ModeManager, BreathEmulationMode, StaticMode, RecordMode
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.vkeyboard import VKeyboard
 from kivy.core.window import Window
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.widget import Widget
+import threading
+from kivy.clock import Clock
 
 import os
 from datetime import datetime
@@ -274,7 +276,7 @@ class OldAnalysisInfoScreen(Screen):
     def _create_input(self, parent, label_text, hint_text):
         box = BoxLayout(orientation='horizontal', size_hint=(1, 0.1), height=50, spacing=5)
         label = Label(text=label_text, size_hint=(0.3, 1))
-        input_field = TextInput(hint_text=hint_text, size_hint=(0.7, 1), font_size=12, padding=[2,2], background_color=(1,1,1,1), keyboard_mode='auto')
+        input_field = TextInput(hint_text=hint_text, size_hint=(0.7, 1), font_size=12, padding=[2,2], background_color=(1,1,1,1), keyboard_mode='managed')
         input_field.bind(focus=self.on_focus)
         box.add_widget(label)
         box.add_widget(input_field)
@@ -307,21 +309,12 @@ class OldAnalysisInfoScreen(Screen):
             self.current_input.focus = False
         elif key == 'spacebar':
             self.current_input.insert_text(' ')
-        elif key == 'shift':
-            self.shift_on = not self.shift_on
-            self.update_keys_for_shift()
-        elif key == 'capslock':
-            self.caps_on = not self.caps_on
-            self.update_keys_for_caps()
         elif key == 'escape':
-            # self.current_input.focus = False
+            self.current_input.focus = False
             if self.vkeyboard.parent:
                 self.remove_widget(self.vkeyboard)
         else:
-            if len(key) == 1 and key.isprintable():
-                if self.shift_on or self.caps_on:
-                    key = key.upper()
-                self.current_input.insert_text(key)
+            self.current_input.insert_text(key)
 
     def update_keys_for_shift(self):
         for key_button in self.vkeyboard.children:
@@ -397,6 +390,7 @@ class AnalysisInfoScreen(Screen):
         self.vkeyboard.height = Window.height * 0.23
         self.vkeyboard.width = Window.width * 0.6
         self.vkeyboard.bind(on_key_up=self.on_key_up)
+        self.is_caps_locked = False
 
         layout = BoxLayout(orientation='vertical', spacing=3, padding=5)
         '''
@@ -469,6 +463,21 @@ class AnalysisInfoScreen(Screen):
 
         layout.add_widget(buttons)
 
+         # --- ADD THIS NEW LABEL ---
+        self.analysis_status_label = Label(
+            text='',  # Initially empty
+            font_size=16,
+            color=(0, 1, 0, 1),  # Green text for success
+            size_hint_y=None,
+            height=40,
+            halign='center',
+            valign='middle'
+        )
+        self.analysis_status_label.bind(size=self.analysis_status_label.setter('text_size'))
+        layout.add_widget(self.analysis_status_label)
+        # ---------------------------
+        
+
         
         back = Button(
             text='Back to User Info',
@@ -487,11 +496,20 @@ class AnalysisInfoScreen(Screen):
     def go_to_user_screen(self, instance):
         self.manager.current = 'user'
 
+    # --- ADD THIS NEW METHOD TO UPDATE THE LABEL ---
+    def update_analysis_status(self, message, color=(0, 1, 0, 1)):
+        self.analysis_status_label.text = message
+        self.analysis_status_label.color = color
+        # You might want to clear the message after some time, e.g., using Clock.schedule_once
+        # from kivy.clock import Clock
+        # Clock.schedule_once(lambda dt: self.update_analysis_status(''), 5) # Clear after 5 seconds
+    # ------------------------------------------------
+
 
     def _create_input(self, parent, label_text, hint_text):
         box = BoxLayout(orientation='horizontal', size_hint=(1, 0.1), height=50, spacing=5)
         label = Label(text=label_text, size_hint=(0.3, 1))
-        input_field = TextInput(hint_text=hint_text, size_hint=(0.7, 1), font_size=12, padding=[2,2], background_color=(1,1,1,1), keyboard_mode='auto')
+        input_field = TextInput(hint_text=hint_text, size_hint=(0.7, 1), font_size=12, padding=[2,2], background_color=(1,1,1,1), keyboard_mode='managed')
         input_field.bind(focus=self.on_focus)
         box.add_widget(label)
         box.add_widget(input_field)
@@ -515,7 +533,8 @@ class AnalysisInfoScreen(Screen):
                     self.remove_widget(self.vkeyboard)
 
     def on_key_up(self, keyboard, keycode, *args):
-        key = keycode
+        # key = keycode
+        key = keycode[1] if isinstance(keycode, tuple) else keycode
         if not self.current_input:
             return
         if key == 'backspace':
@@ -528,8 +547,17 @@ class AnalysisInfoScreen(Screen):
             self.current_input.focus = False
             if self.vkeyboard.parent:
                 self.remove_widget(self.vkeyboard)
-        else:
-            self.current_input.insert_text(key)
+        elif key == 'capslock':
+            self.is_caps_locked = not self.is_caps_locked
+            self.vkeyboard.set_caps(self.is_caps_locked)
+        else: # This block handles actual character insertion
+            # If capslock is active AND the key is an alphabetic character,
+            # convert it to uppercase before inserting.
+            if self.is_caps_locked and key_str.isalpha():
+                self.current_input.insert_text(key.upper())
+            else:
+                # Otherwise, insert the key as is (lowercase or non-alphabetic)
+                self.current_input.insert_text(key)
 
 
     # when the start button is pressed, the rest of the data entered is updated to the trial parameter variables
@@ -550,10 +578,46 @@ class AnalysisInfoScreen(Screen):
             self.service_manager.deviceFlags.CONFIGURE_FLAG = True
             self.service_manager.deviceFlags.START_FLAG = True
 
+            self.update_analysis_status('Analysis started...', color=(0, 0.7, 1, 1)) # Blue-ish for "in progress"
+
+            # Create an instance of the appropriate mode manager based on the selected mode
+            mode_class = None
+            if self.service_manager.trialParameters.MODE == 'BreathEmulate':
+                mode_class = BreathEmulationMode
+            elif self.service_manager.trialParameters.MODE == 'Static':
+                mode_class = StaticMode
+            elif self.service_manager.trialParameters.MODE == 'Combined':
+                mode_class = RecordMode # Assuming RecordMode is for Combined based on its print statement
+
+            if mode_class:
+                self.analysis_mode_manager = mode_class(self.service_manager) # Store the instance
+                # --- Start the analysis in a new thread ---
+                self.analysis_thread = threading.Thread(target=self._run_analysis_in_thread)
+                self.analysis_thread.start()
+                # ------------------------------------------
+            else:
+                self.update_analysis_status('Error: No analysis mode selected!', color=(1, 0, 0, 1)) # Red for error
+    def _run_analysis_in_thread(self):
+        # This method runs in a separate thread
+        print(f"Analysis thread started for mode: {self.service_manager.trialParameters.MODE}")
+        # Call the Run method of the selected ModeManager subclass
+        is_done = self.analysis_mode_manager.Run() # This method returns self.DONE
+        print(f"Analysis thread finished. Done status: {is_done}")
+
+        # Update the UI on the main Kivy thread
+        if is_done:
+            # Schedule the UI update to happen on the next frame of the Kivy event loop
+            Clock.schedule_once(lambda dt: self.update_analysis_status('Analysis Complete!', (0, 1, 0, 1)), 0)
+        else:
+            Clock.schedule_once(lambda dt: self.update_analysis_status('Analysis Complete!.', (0, 0.6, 0, 1)), 0)
+
+
     def stop_action(self, instance):
         if self.service_manager:
             self.service_manager.deviceFlags.START_FLAG = False
             self.service_manager.deviceFlags.STOP_FLAG = True
+            self.update_analysis_status('Analysis stopping...', color=(1, 0.65, 0, 1)) # Orange color
+
     
     def populate_fields_from_params(self):
         if not self.service_manager:

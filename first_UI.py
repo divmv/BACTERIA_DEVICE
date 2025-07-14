@@ -11,6 +11,7 @@ from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
 from kivy.config import Config
 from kivy.uix.widget import Widget
+from kivy.core.window import Window
 
 from tab1 import Tab1Content
 from tab2 import Tab2Content
@@ -20,14 +21,15 @@ from DAQManager import DAQManager
 from SignalColumn import SignalColumn
 from MetricsColumn import MetricsColumn
 # from DataClasses import DeviceFlags
-from ModeManager import ModeManager
+from ModeManager import ModeManager, BreathEmulationMode, StaticMode, RecordMode
 
 import os
 import glob
 import csv
 
-# Window.show_cursor = False
-Config.set('input', 'mouse', 'mouse,disable')
+Window.show_cursor = False
+# Config.set('input', 'mouse', 'mouse,disable')
+Window.fullscreen = True
 # Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 
 
