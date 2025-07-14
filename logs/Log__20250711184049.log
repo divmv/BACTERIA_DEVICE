@@ -1,0 +1,49 @@
+Log started on 7/11/2025
+Initialized local system at 18:40:49
+UID: 
+Mode: BreathEmulate
+Trial: 0
+Duration: 30 seconds
+User: 
+-----------------------------------
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 1000 
+Actual Scan Rate: 1000.0 
+18:40:49:: Recording Started
+Total Duration: 30 seconds
+18:40:49:Recording Started
+18:40:50:Time Elapsed (s):1 of 30
+18:40:51:Time Elapsed (s):2 of 30
+18:40:52:Time Elapsed (s):3 of 30
+18:40:53:Time Elapsed (s):4 of 30
+18:40:54:Time Elapsed (s):5 of 30
+18:40:55:Time Elapsed (s):6 of 30
+18:40:56:Time Elapsed (s):7 of 30
+18:40:57:Time Elapsed (s):8 of 30
+18:40:58:Time Elapsed (s):9 of 30
+18:40:59:Time Elapsed (s):10 of 30
+18:41:00:Time Elapsed (s):11 of 30
+18:41:01:Time Elapsed (s):12 of 30
+18:41:02:Time Elapsed (s):13 of 30
+18:41:03:Time Elapsed (s):14 of 30
+18:41:04:Time Elapsed (s):15 of 30
+18:41:05:Time Elapsed (s):16 of 30
+18:41:06:Time Elapsed (s):17 of 30
+18:41:07:Time Elapsed (s):18 of 30
+18:41:08:Time Elapsed (s):19 of 30
+18:41:09:Time Elapsed (s):20 of 30
+18:41:10:Time Elapsed (s):21 of 30
+18:41:11:Time Elapsed (s):22 of 30
+18:41:12:Time Elapsed (s):23 of 30
+18:41:13:Time Elapsed (s):24 of 30
+18:41:14:Time Elapsed (s):25 of 30
+18:41:15:Time Elapsed (s):26 of 30
+18:41:16:Time Elapsed (s):27 of 30
+18:41:17:Time Elapsed (s):28 of 30
+18:41:18:Time Elapsed (s):29 of 30
+18:41:19:Time Elapsed (s):30 of 30
+18:41:19:Recording Ended 
+Data Recording Complete for a Duration of 30s
+Final Data Frame Size:(30000, 4)

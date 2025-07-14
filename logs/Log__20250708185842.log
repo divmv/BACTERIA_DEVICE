@@ -1,0 +1,22 @@
+Log started on 7/8/2025
+Initialized local system at 18:58:42
+UID: 
+Mode: Combined
+Trial: 0
+Duration: 2 seconds
+User: 
+-----------------------------------
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 1000 
+Actual Scan Rate: 1000.0 
+18:58:42:: Recording Started
+Total Duration: 2 seconds
+18:58:42:Recording Started
+18:58:43:Time Elapsed (s):1 of 2
+18:58:44:Time Elapsed (s):2 of 2
+18:58:44:Recording Ended 
+Data Recording Complete for a Duration of 2s
+Final Data Frame Size:(2000, 4)
+SEND_FILE True but no analysis callback set
