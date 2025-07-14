@@ -1,0 +1,24 @@
+Log started on 7/14/2025
+Initialized local system at 10:56:1
+UID: 
+Mode: BreathEmulate
+Trial: 0
+Duration: 5 seconds
+User: 
+-----------------------------------
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 1000 
+Actual Scan Rate: 1000.0 
+10:56:1:: Recording Started
+Total Duration: 5 seconds
+10:56:1:Recording Started
+10:56:02:Time Elapsed (s):1 of 5
+10:56:04:Time Elapsed (s):2 of 5
+10:56:04:Time Elapsed (s):3 of 5
+10:56:06:Time Elapsed (s):4 of 5
+10:56:07:Time Elapsed (s):5 of 5
+10:56:7:Recording Ended 
+Data Recording Complete for a Duration of 5s
+Final Data Frame Size:(5000, 4)

@@ -1,2 +1,1 @@
-# BACTERIA_DEVICE
-Files for the User Interface for the Bacteria Device at the DICE Lab, UGA
+User Interface for PRANAS at the DICE Lab, College of Engineering, UGA

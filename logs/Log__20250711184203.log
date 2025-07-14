@@ -1,0 +1,34 @@
+Log started on 7/11/2025
+Initialized local system at 18:42:3
+UID: 
+Mode: Static
+Trial: 0
+Duration: 15 seconds
+User: 
+-----------------------------------
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 1000 
+Actual Scan Rate: 1000.0 
+18:42:3:: Recording Started
+Total Duration: 15 seconds
+18:42:3:Recording Started
+18:42:05:Time Elapsed (s):1 of 15
+18:42:06:Time Elapsed (s):2 of 15
+18:42:07:Time Elapsed (s):3 of 15
+18:42:08:Time Elapsed (s):4 of 15
+18:42:09:Time Elapsed (s):5 of 15
+18:42:10:Time Elapsed (s):6 of 15
+18:42:11:Time Elapsed (s):7 of 15
+18:42:12:Time Elapsed (s):8 of 15
+18:42:13:Time Elapsed (s):9 of 15
+18:42:14:Time Elapsed (s):10 of 15
+18:42:15:Time Elapsed (s):11 of 15
+18:42:16:Time Elapsed (s):12 of 15
+18:42:17:Time Elapsed (s):13 of 15
+18:42:18:Time Elapsed (s):14 of 15
+18:42:19:Time Elapsed (s):15 of 15
+18:42:19:Recording Ended 
+Data Recording Complete for a Duration of 15s
+Final Data Frame Size:(15000, 4)
