@@ -57,6 +57,11 @@ class DAQManager():
     def ScanDAQ(self,total_samples_read,nebMode):
         print(self.READ_ALL_AVAILABLE,self.timeout)
         read_result=self.hat.a_in_scan_read(self.READ_ALL_AVAILABLE,self.timeout)
+
+        msg = 'Success'
+        xpos = []
+        ypos = []
+        pow_data = []
         
         if read_result.hardware_overrun:
             self.logFile.WriteLog('Hardware Overrun',1)
@@ -77,7 +82,7 @@ class DAQManager():
         if samples_read_per_channel > 0:
             endIndex = samples_read_per_channel * self.num_channels - self.num_channels
             stdout.flush()
-            sleep(0.1)
+            # sleep(0.1)
         return 'Success',total_samples_read, Xpos, Ypos, Pow
         
     def ResetDAQ(self):
