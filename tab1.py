@@ -463,7 +463,7 @@ class AnalysisInfoScreen(Screen):
 
         layout.add_widget(buttons)
 
-         # --- ADD THIS NEW LABEL ---
+
         self.analysis_status_label = Label(
             text='',  # Initially empty
             font_size=16,
@@ -475,7 +475,7 @@ class AnalysisInfoScreen(Screen):
         )
         self.analysis_status_label.bind(size=self.analysis_status_label.setter('text_size'))
         layout.add_widget(self.analysis_status_label)
-        # ---------------------------
+
         
 
         

@@ -65,10 +65,10 @@ class DAQManager():
         
         if read_result.hardware_overrun:
             self.logFile.WriteLog('Hardware Overrun',1)
-            return 'HardwareOvr'
+            msg = 'HardwareOvr'
         elif read_result.buffer_overrun:
             self.logFile.WriteLog('Buffer Overrun',1)
-            return 'BuffOvr'
+            msg =  'BuffOvr'
         samples_read_per_channel = int(len(read_result.data) / self.num_channels)
         total_samples_read += samples_read_per_channel
         #print('\r{:12}'.format(samples_read_per_channel),
@@ -82,7 +82,7 @@ class DAQManager():
         if samples_read_per_channel > 0:
             endIndex = samples_read_per_channel * self.num_channels - self.num_channels
             stdout.flush()
-            # sleep(0.1)
+            sleep(0.09)
         return 'Success',total_samples_read, Xpos, Ypos, Pow
         
     def ResetDAQ(self):

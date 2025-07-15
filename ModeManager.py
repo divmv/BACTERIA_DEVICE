@@ -164,11 +164,19 @@ class ModeManager():
                 print("entered static if statement")
                 # WRITE STATIC MODE FUNCTIONALITY
             if msg=='HardwareOvr':
-                self.logFile.WriteLog('Hardware Over Run')
-                break
+                # self.logFile.WriteLog('Hardware Over Run')
+                # break
+                self.logFile.WriteLog('Hardware Overrun detected.', 1)
+                self.DAQ.ResetDAQ() # Reset the DAQ to clear the error state
+                self.modeData.STOP_FLAG = True # Set stop flag to exit the loop gracefully
+                break # Exit the while loop
             elif msg=='BuffOvr':
-                self.logFile.WriteLog('Buffer Over Run')
-                break
+                # self.logFile.WriteLog('Buffer Over Run')
+                # break
+                self.logFile.WriteLog('Buffer Overrun detected.', 1)
+                self.DAQ.ResetDAQ() # Reset the DAQ to clear the error state
+                self.modeData.STOP_FLAG = True # Set stop flag to exit the loop gracefully
+                break # Exit the while loop
             time.sleep(0.1)  # sleep
             
 

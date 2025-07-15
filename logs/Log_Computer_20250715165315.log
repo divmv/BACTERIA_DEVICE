@@ -1,0 +1,48 @@
+Log started on 7/15/2025
+Initialized local system at 16:53:15
+Log started on 7/15/2025
+Initialized local system at 16:53:15
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 1000 
+Actual Scan Rate: 1000.0 
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 1000 
+Actual Scan Rate: 1000.0 
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 1000 
+Actual Scan Rate: 1000.0 
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 1000 
+Actual Scan Rate: 1000.0 
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 1000 
+Actual Scan Rate: 1000.0 
+16:53:22:: Recording Started
+Total Duration: 5 seconds
+16:53:22:Recording Started
+16:53:22:Time Elapsed (s):0 of 5
+16:53:24:Time Elapsed (s):2 of 5
+16:53:26:Time Elapsed (s):3 of 5
+16:53:26:Buffer Overrun
+16:53:26:Time Elapsed (s):4 of 5
+16:53:26:Buffer Overrun
+16:53:27:Time Elapsed (s):4 of 5
+16:53:27:Buffer Overrun
+16:53:27:Time Elapsed (s):4 of 5
+16:53:27:Buffer Overrun
+16:53:27:Time Elapsed (s):4 of 5
+16:53:27:Buffer Overrun
+16:53:27:Time Elapsed (s):5 of 5
+16:53:27:Recording Ended 
+Data Recording Complete for a Duration of 5s
+Final Data Frame Size:(7044, 4)
