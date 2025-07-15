@@ -1,0 +1,37 @@
+Log started on 7/15/2025
+Initialized local system at 16:37:58
+Log started on 7/15/2025
+Initialized local system at 16:37:58
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 1000 
+Actual Scan Rate: 1000.0 
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 1000 
+Actual Scan Rate: 1000.0 
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 1000 
+Actual Scan Rate: 1000.0 
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 1000 
+Actual Scan Rate: 1000.0 
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 1000 
+Actual Scan Rate: 1000.0 
+16:38:7:: Recording Started
+Total Duration: 1 seconds
+16:38:7:Recording Started
+16:38:08:Time Elapsed (s):0 of 1
+16:38:10:Time Elapsed (s):2 of 1
+16:38:10:Recording Ended 
+Data Recording Complete for a Duration of 2s
+Final Data Frame Size:(1029, 4)
