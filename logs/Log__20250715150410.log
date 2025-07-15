@@ -1,0 +1,18 @@
+Log started on 7/15/2025
+Initialized local system at 15:4:10
+UID: 
+Mode: Static
+Trial: 4
+Duration: 4 seconds
+User: 
+-----------------------------------
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 1000 
+Actual Scan Rate: 1000.0 
+15:4:10:: Recording Started
+Total Duration: 4 seconds
+15:4:10:Recording Started
+15:04:12:Time Elapsed (s):1 of 4
+15:4:12:Buffer Overrun

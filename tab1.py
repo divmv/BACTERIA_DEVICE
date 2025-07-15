@@ -276,7 +276,7 @@ class OldAnalysisInfoScreen(Screen):
     def _create_input(self, parent, label_text, hint_text):
         box = BoxLayout(orientation='horizontal', size_hint=(1, 0.1), height=50, spacing=5)
         label = Label(text=label_text, size_hint=(0.3, 1))
-        input_field = TextInput(hint_text=hint_text, size_hint=(0.7, 1), font_size=12, padding=[2,2], background_color=(1,1,1,1), keyboard_mode='managed')
+        input_field = TextInput(hint_text=hint_text, size_hint=(0.7, 1), font_size=12, padding=[2,2], background_color=(1,1,1,1), keyboard_mode='auto')
         input_field.bind(focus=self.on_focus)
         box.add_widget(label)
         box.add_widget(input_field)
@@ -509,7 +509,7 @@ class AnalysisInfoScreen(Screen):
     def _create_input(self, parent, label_text, hint_text):
         box = BoxLayout(orientation='horizontal', size_hint=(1, 0.1), height=50, spacing=5)
         label = Label(text=label_text, size_hint=(0.3, 1))
-        input_field = TextInput(hint_text=hint_text, size_hint=(0.7, 1), font_size=12, padding=[2,2], background_color=(1,1,1,1), keyboard_mode='managed')
+        input_field = TextInput(hint_text=hint_text, size_hint=(0.7, 1), font_size=12, padding=[2,2], background_color=(1,1,1,1), keyboard_mode='auto')
         input_field.bind(focus=self.on_focus)
         box.add_widget(label)
         box.add_widget(input_field)
