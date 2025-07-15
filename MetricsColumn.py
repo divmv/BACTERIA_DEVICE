@@ -11,7 +11,9 @@ from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
 from kivy.config import Config
 import numpy as np
+import time
 from kivy.uix.popup import Popup
+
 
 from tab1 import Tab1Content
 from tab2 import Tab2Content
@@ -129,9 +131,24 @@ class MetricsColumn(BoxLayout):
                     size_hint=(0.9, 0.9))
         popup.open()
 
+    def get_latest_plot_path(self, directory):
+        list_of_files = os.listdir(directory)
 
+        image_files = [os.path.join(directory, f) for f in list_of_files if f.endswith('.png')]
+        
+        if not image_files:
+            return None
+        
+        # Sort by modification time (most recent first)
+        latest_file = max(image_files, key=os.path.getmtime)
+        return latest_file
 
     def on_bde_press(self, instance):
+        file_path = 'PlotData/Metrics'
+        if not os.path.exists(file_path):
+            os.makedirs(file_path)
+            print(f"Created directory: {file_path}")
+
         if os.path.exists('bdeplot.png'):
             os.remove('bdeplot.png')
         self.graph_container.clear_widgets()
@@ -148,6 +165,9 @@ class MetricsColumn(BoxLayout):
 
         bde = magnitude/pow_data
 
+        timestamp = time.strftime("%Y%m%d_%H%M%S")
+        plot_filename_base = f"bdeplot_{timestamp}"
+
         # Make the plot and save
         plt.figure(figsize=(12,6))
         plt.scatter(bde, direction, s=10, c='black')
@@ -155,10 +175,15 @@ class MetricsColumn(BoxLayout):
         plt.ylabel('DIR')
         plt.title('BDE vs DIR')
         plt.tight_layout()
-        plt.savefig('bdeplot.png', dpi=200)
+        # plt.savefig('bdeplot.png', dpi=200)
+        bdeplot_path = os.path.join(file_path, f"{plot_filename_base}.png")
+        plt.savefig(bdeplot_path, dpi=200)
         plt.close()
 
-        graph_image = ClickableImage(source='bdeplot.png', allow_stretch=True, keep_ratio=True)
+        latest_plot_path = self.get_latest_plot_path(file_path)
+
+        graph_image = ClickableImage(source=f'{latest_plot_path}', allow_stretch=True, keep_ratio=True)
+        # graph_image = ClickableImage(source='bdeplot.png', allow_stretch=True, keep_ratio=True)
         graph_image.size_hint = (0.9, 0.9)
         graph_image.pos_hint = {'center_x': 0.6, 'center_y': 0.5}
         graph_image.bind(on_press=self.show_large_image)
@@ -166,6 +191,11 @@ class MetricsColumn(BoxLayout):
         self.graph_container.add_widget(graph_image)
 
     def on_siv_press(self, instance):
+        file_path = 'PlotData/Metrics'
+        if not os.path.exists(file_path):
+            os.makedirs(file_path)
+            print(f"Created directory: {file_path}")
+
         if os.path.exists('sivplot.png'):
             os.remove('sivplot.png')
         self.graph_container.clear_widgets()
@@ -190,6 +220,8 @@ class MetricsColumn(BoxLayout):
         else:
             siv = 0  # or np.nan, depending on how you want to handle it
 
+        timestamp = time.strftime("%Y%m%d_%H%M%S")
+        plot_filename_base = f"sivplot_{timestamp}"
 
         # Make the plot and save
         plt.figure(figsize=(10,5))
@@ -199,10 +231,15 @@ class MetricsColumn(BoxLayout):
         plt.ylabel('DIR')
         plt.title('MAG vs DIR')
         plt.tight_layout()
-        plt.savefig('sivplot.png')
+        # plt.savefig('sivplot.png')
+        sivplot_path = os.path.join(file_path, f"{plot_filename_base}.png")
+        plt.savefig(sivplot_path, dpi=200)
         plt.close()
 
-        graph_image = ClickableImage(source='sivplot.png', allow_stretch=True, keep_ratio=True)
+        latest_plot_path = self.get_latest_plot_path(file_path)
+
+        graph_image = ClickableImage(source=f'{latest_plot_path}', allow_stretch=True, keep_ratio=True)
+        # graph_image = ClickableImage(source='sivplot.png', allow_stretch=True, keep_ratio=True)
         graph_image.size_hint = (0.9, 0.9)
         graph_image.pos_hint = {'center_x': 0.6, 'center_y': 0.5}
         graph_image.bind(on_press=self.show_large_image)

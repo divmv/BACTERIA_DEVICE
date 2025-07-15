@@ -20,6 +20,7 @@ from tab3 import Tab3Content
 from ServiceManager import ServiceManager
 from DAQManager import DAQManager
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 # from DataClasses import DeviceFlags
 # from ModeManager import ModeManager
 
@@ -97,7 +98,7 @@ class SignalColumn(BoxLayout):
 
         self.load_button.bind(on_press=self.on_xpos_press)
         self.button_row.add_widget(self.load_button)
-
+        '''
         self.load_button2 = Button(
             text='Ypos',
             size_hint=(None,None),
@@ -111,7 +112,7 @@ class SignalColumn(BoxLayout):
 
         self.load_button2.bind(on_press=self.on_ypos_press)
         self.button_row.add_widget(self.load_button2)
-
+        '''
         self.load_button3 = Button(
             text='Pow',
             size_hint=(None,None),
@@ -141,13 +142,28 @@ class SignalColumn(BoxLayout):
                     size_hint=(0.9, 0.9))
         popup.open()
 
+    def get_latest_plot_path(self, directory):
+        list_of_files = os.listdir(directory)
+
+        image_files = [os.path.join(directory, f) for f in list_of_files if f.endswith('.png')]
+        
+        if not image_files:
+            return None
+        
+        # Sort by modification time (most recent first)
+        latest_file = max(image_files, key=os.path.getmtime)
+        return latest_file
+
 
 
     def on_xpos_press(self, instance):
+        file_path = 'PlotData/Signals'
+        if not os.path.exists(file_path):
+            os.makedirs(file_path)
+            print(f"Created directory: {file_path}")
 
         if os.path.exists('xplot.png'):
             os.remove('xplot.png')
-            print("removed picture thing")
         self.graph_container.clear_widgets()
         self.DAQ.StartDAQ()
         msg, self.total_samples_read, xpos_data, ypos_data, pow_data = self.DAQ.ScanDAQ(self.total_samples_read, self.nebState)
@@ -156,26 +172,52 @@ class SignalColumn(BoxLayout):
         time_array = np.linspace(0, self.service_manager.trialParameters.RECORD_DURATION, num_samples)
         print(record_dur)
 
+        timestamp = time.strftime("%Y%m%d_%H%M%S")
+        plot_filename_base = f"xplot_{timestamp}"
+
+
         # Make the plot and save
-        plt.figure(figsize=(12,6))
+        fig = plt.figure(figsize=(12,6))
+        ax = fig.add_subplot(111, projection='3d')
+        ax.scatter(xpos_data, ypos_data, pow_data, c='blue', marker='o', s=10, alpha=0.6)
+
+        # Set labels for the axes
+        ax.set_xlabel('X Pos')
+        ax.set_ylabel('Y Pos')
+        ax.set_zlabel('Pow')
+        ax.set_title('3D Plot: Xpos, Ypos, and Power')
+
+        plt.tight_layout() # Adjust layout to prevent labels/titles from overlapping
+        
+        # Save the 3D plot
+        plot_path = os.path.join(file_path, f"{plot_filename_base}.png")
+        plt.savefig(plot_path, dpi=200)
+        plt.close(fig) # Close the figure to free up memory
+        print(f"Saved 3D plot: {plot_path}")
+
+        '''
         plt.scatter(time_array, xpos_data, s=10, c='black')
         plt.xlabel('Time (s)')
         plt.ylabel('Xpos')
         plt.title('Xpos vs Time')
         plt.tight_layout()
-        plt.savefig('xplot.png', dpi=200)
+        # plt.savefig('xplot.png', dpi=200)
+        xplot_path = os.path.join(file_path, f"{plot_filename_base}.png")
+        plt.savefig(xplot_path, dpi=200)
         plt.close()
+        '''
+        latest_plot_path = self.get_latest_plot_path(file_path)
 
         # timestamp = time.time()
-        # graph_image = ClickableImage(source=f'{xplot.png}?{timestamp}', allow_stretch=True, keep_ratio=True)
-        graph_image = ClickableImage(source='xplot.png', allow_stretch=True, keep_ratio=True)
+        graph_image = ClickableImage(source=f'{latest_plot_path}', allow_stretch=True, keep_ratio=True)
+        # graph_image = ClickableImage(source='xplot.png', allow_stretch=True, keep_ratio=True)
         graph_image.size_hint = (0.9, 0.9)
         graph_image.pos_hint = {'center_x': 0.6, 'center_y': 0.5}
         graph_image.bind(on_press=self.show_large_image)
         graph_image.reload()
         self.graph_container.add_widget(graph_image)
 
-
+    '''
     def on_ypos_press(self, instance):
         if os.path.exists('yplot.png'):
             os.remove('yplot.png')
@@ -204,8 +246,57 @@ class SignalColumn(BoxLayout):
         graph_image.bind(on_press=self.show_large_image)
         graph_image.reload()
         self.graph_container.add_widget(graph_image)
+    '''
 
     def on_pow_press(self, instance):
+        file_path = 'PlotData/Signals'
+        if not os.path.exists(file_path):
+            os.makedirs(file_path)
+            print(f"Created directory: {file_path}")
+
+        if os.path.exists('powplot.png'):
+            os.remove('powplot.png')
+        self.graph_container.clear_widgets()
+        self.DAQ.StartDAQ()
+        msg, self.total_samples_read, xpos_data, ypos_data, pow_data = self.DAQ.ScanDAQ(self.total_samples_read, self.nebState)
+        record_dur = self.service_manager.trialParameters.RECORD_DURATION
+        num_samples = len(xpos_data)
+        time_array = np.linspace(0, self.service_manager.trialParameters.RECORD_DURATION, num_samples)
+        print(record_dur)
+
+        timestamp = time.strftime("%Y%m%d_%H%M%S")
+        plot_filename_base = f"powplot_{timestamp}"
+
+
+        # Make the plot and save
+        plt.figure(figsize=(12,6))
+        plt.scatter(time_array, pow_data, s=10, c='blue')
+        plt.xlabel('Time (s)')
+        plt.ylabel('Pow')
+        plt.title('Pow vs Time')
+        plt.tight_layout()
+        # plt.savefig('xplot.png', dpi=200)
+        powplot_path = os.path.join(file_path, f"{plot_filename_base}.png")
+        plt.savefig(powplot_path, dpi=200)
+        plt.close()
+
+        latest_plot_path = self.get_latest_plot_path(file_path)
+
+        # timestamp = time.time()
+        graph_image = ClickableImage(source=f'{latest_plot_path}', allow_stretch=True, keep_ratio=True)
+        # graph_image = ClickableImage(source='xplot.png', allow_stretch=True, keep_ratio=True)
+        graph_image.size_hint = (0.9, 0.9)
+        graph_image.pos_hint = {'center_x': 0.6, 'center_y': 0.5}
+        graph_image.bind(on_press=self.show_large_image)
+        graph_image.reload()
+        self.graph_container.add_widget(graph_image)
+
+    '''
+    def on_pow_press(self, instance):
+        file_path = 'PlotData'
+        if not os.path.exists(file_path):
+            os.makedirs(file_path)
+            print(f"Created directory: {file_path}")
         if os.path.exists('powplot.png'):
             os.remove('powplot.png')
         
@@ -234,15 +325,15 @@ class SignalColumn(BoxLayout):
         graph_image.reload()
         self.graph_container.add_widget(graph_image)
 
-        '''
+        
         graph_image = Image(source='powplot.png', allow_stretch=True, keep_ratio=True)
         graph_image.size_hint = (0.9, 0.9)
         graph_image.size = (self.graph_container.width * 0.9, self.graph_container.height * 0.9)
         # graph_image.size = (500, 50)
         graph_image.pos_hint = {'center_x': 0.6, 'center_y': 0.5}
         self.graph_container.add_widget(graph_image)
-        '''
-
+        
+    '''
 
     
     def create_footer(self):
