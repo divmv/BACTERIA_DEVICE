@@ -1,0 +1,169 @@
+Log started on 7/18/2025
+Initialized local system at 18:33:37
+UID: 
+Mode: Static
+Trial: 0
+Duration: 60 seconds
+User: 
+-----------------------------------
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 1000 
+Actual Scan Rate: 1000.0 
+18:33:37:: Recording Started
+Total Duration: 60 seconds
+18:33:37:Recording Started
+18:33:39:Time Elapsed (s):1 of 60
+18:33:40:Time Elapsed (s):2 of 60
+18:33:41:Time Elapsed (s):4 of 60
+18:33:43:Time Elapsed (s):5 of 60
+18:33:44:Time Elapsed (s):6 of 60
+18:33:46:Time Elapsed (s):8 of 60
+18:33:48:Time Elapsed (s):10 of 60
+18:33:49:Time Elapsed (s):11 of 60
+18:33:51:Time Elapsed (s):13 of 60
+18:33:51:Time Elapsed (s):14 of 60
+18:33:51:Buffer Overrun
+18:33:51:Time Elapsed (s):14 of 60
+18:33:52:Buffer Overrun
+18:33:52:Time Elapsed (s):14 of 60
+18:33:52:Buffer Overrun
+18:33:52:Time Elapsed (s):14 of 60
+18:33:52:Buffer Overrun
+18:33:52:Time Elapsed (s):15 of 60
+18:33:52:Buffer Overrun
+18:33:52:Time Elapsed (s):15 of 60
+18:33:52:Buffer Overrun
+18:33:53:Time Elapsed (s):15 of 60
+18:33:53:Buffer Overrun
+18:33:53:Time Elapsed (s):15 of 60
+18:33:53:Buffer Overrun
+18:33:53:Time Elapsed (s):15 of 60
+18:33:53:Buffer Overrun
+18:33:53:Time Elapsed (s):16 of 60
+18:33:53:Buffer Overrun
+18:33:53:Time Elapsed (s):16 of 60
+18:33:53:Buffer Overrun
+18:33:54:Time Elapsed (s):16 of 60
+18:33:54:Buffer Overrun
+18:33:54:Time Elapsed (s):16 of 60
+18:33:54:Buffer Overrun
+18:33:54:Time Elapsed (s):16 of 60
+18:33:54:Buffer Overrun
+18:33:54:Time Elapsed (s):17 of 60
+18:33:54:Buffer Overrun
+18:33:54:Time Elapsed (s):17 of 60
+18:33:55:Buffer Overrun
+18:33:55:Time Elapsed (s):17 of 60
+18:33:55:Buffer Overrun
+18:33:55:Time Elapsed (s):17 of 60
+18:33:55:Buffer Overrun
+18:33:55:Time Elapsed (s):17 of 60
+18:33:55:Buffer Overrun
+18:33:55:Time Elapsed (s):18 of 60
+18:33:55:Buffer Overrun
+18:33:55:Time Elapsed (s):18 of 60
+18:33:55:Buffer Overrun
+18:33:56:Time Elapsed (s):18 of 60
+18:33:56:Buffer Overrun
+18:33:56:Time Elapsed (s):18 of 60
+18:33:56:Buffer Overrun
+18:33:56:Time Elapsed (s):18 of 60
+18:33:56:Buffer Overrun
+18:33:56:Time Elapsed (s):19 of 60
+18:33:56:Buffer Overrun
+18:33:56:Time Elapsed (s):19 of 60
+18:33:56:Buffer Overrun
+18:33:57:Time Elapsed (s):19 of 60
+18:33:57:Buffer Overrun
+18:33:57:Time Elapsed (s):19 of 60
+18:33:57:Buffer Overrun
+18:33:57:Time Elapsed (s):19 of 60
+18:33:57:Buffer Overrun
+18:33:57:Time Elapsed (s):20 of 60
+18:33:57:Buffer Overrun
+18:33:57:Time Elapsed (s):20 of 60
+18:33:57:Buffer Overrun
+18:33:58:Time Elapsed (s):20 of 60
+18:33:58:Buffer Overrun
+18:33:58:Time Elapsed (s):20 of 60
+18:33:58:Buffer Overrun
+18:33:58:Time Elapsed (s):20 of 60
+18:33:58:Buffer Overrun
+18:33:58:Time Elapsed (s):21 of 60
+18:33:58:Buffer Overrun
+18:33:58:Time Elapsed (s):21 of 60
+18:33:58:Buffer Overrun
+18:33:59:Time Elapsed (s):21 of 60
+18:33:59:Buffer Overrun
+18:33:59:Time Elapsed (s):21 of 60
+18:33:59:Buffer Overrun
+18:33:59:Time Elapsed (s):21 of 60
+18:33:59:Buffer Overrun
+18:33:59:Time Elapsed (s):22 of 60
+18:33:59:Buffer Overrun
+18:33:59:Time Elapsed (s):22 of 60
+18:33:59:Buffer Overrun
+18:34:00:Time Elapsed (s):22 of 60
+18:34:0:Buffer Overrun
+18:34:00:Time Elapsed (s):22 of 60
+18:34:0:Buffer Overrun
+18:34:00:Time Elapsed (s):22 of 60
+18:34:0:Buffer Overrun
+18:34:00:Time Elapsed (s):23 of 60
+18:34:0:Buffer Overrun
+18:34:00:Time Elapsed (s):23 of 60
+18:34:1:Buffer Overrun
+18:34:01:Time Elapsed (s):23 of 60
+18:34:1:Buffer Overrun
+18:34:01:Time Elapsed (s):23 of 60
+18:34:1:Buffer Overrun
+18:34:01:Time Elapsed (s):23 of 60
+18:34:1:Buffer Overrun
+18:34:01:Time Elapsed (s):24 of 60
+18:34:1:Buffer Overrun
+18:34:01:Time Elapsed (s):24 of 60
+18:34:2:Buffer Overrun
+18:34:02:Time Elapsed (s):24 of 60
+18:34:2:Buffer Overrun
+18:34:02:Time Elapsed (s):24 of 60
+18:34:2:Buffer Overrun
+18:34:02:Time Elapsed (s):25 of 60
+18:34:2:Buffer Overrun
+18:34:02:Time Elapsed (s):25 of 60
+18:34:2:Buffer Overrun
+18:34:03:Time Elapsed (s):25 of 60
+18:34:3:Buffer Overrun
+18:34:03:Time Elapsed (s):25 of 60
+18:34:3:Buffer Overrun
+18:34:03:Time Elapsed (s):25 of 60
+18:34:3:Buffer Overrun
+18:34:03:Time Elapsed (s):26 of 60
+18:34:3:Buffer Overrun
+18:34:03:Time Elapsed (s):26 of 60
+18:34:3:Buffer Overrun
+18:34:04:Time Elapsed (s):26 of 60
+18:34:4:Buffer Overrun
+18:34:04:Time Elapsed (s):26 of 60
+18:34:4:Buffer Overrun
+18:34:04:Time Elapsed (s):26 of 60
+18:34:4:Buffer Overrun
+18:34:04:Time Elapsed (s):27 of 60
+18:34:4:Buffer Overrun
+18:34:04:Time Elapsed (s):27 of 60
+18:34:5:Buffer Overrun
+18:34:05:Time Elapsed (s):27 of 60
+18:34:5:Buffer Overrun
+18:34:05:Time Elapsed (s):27 of 60
+18:34:5:Buffer Overrun
+18:34:05:Time Elapsed (s):28 of 60
+18:34:5:Buffer Overrun
+18:34:05:Time Elapsed (s):28 of 60
+18:34:5:Buffer Overrun
+18:34:06:Time Elapsed (s):28 of 60
+18:34:6:Buffer Overrun
+18:34:06:Time Elapsed (s):28 of 60
+18:34:6:Buffer Overrun
+18:34:06:Time Elapsed (s):28 of 60
+18:34:6:Buffer Overrun
