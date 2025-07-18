@@ -6,6 +6,7 @@ import os
 import threading
 import requests
 import warnings
+from kivy.clock import Clock
 
 # from first_UI import HeaderFooterLayout
 
@@ -61,15 +62,21 @@ class ModeManager():
         self.modeData=self.currentService.deviceFlags
     '''
     
-    def __init__(self, currentService):
+    def __init__(self, currentService, ui_update_callback=None):
         self.currentService = currentService
         self.logFile = self.currentService.logFileManage
+        # self.ui_update_callback = ui_update_callback 
 
         self.stateSet = True
         self.thisState = -1
         self.curDuration = 0
         self.endDuration = 0
         self.nebState = 0
+        self.DONE = False 
+
+        # self.ui_update_callback = ui_update_callback
+        # print(f"ModeManager initialized. ui_update_callback: {self.ui_update_callback}")
+    
         
         if self.currentService.trialParameters.MODE == "Static":
             print("entered first static if")
@@ -145,6 +152,8 @@ class ModeManager():
         self.logFile.WriteLog('Recording Started',1)
         self.DAQ.StartDAQ()
 
+        # previous_elapsed_for_ui = -1
+
         while (elapsed) < totalTime and (not self.modeData.STOP_FLAG):
             msg,self.total_samples_read, xpos, ypos, pow_data =self.DAQ.ScanDAQ(self.total_samples_read,nebState)
             '''
@@ -154,9 +163,10 @@ class ModeManager():
             '''
 
             elapsed = int(time.time() - startTime)
+            
             # print(f'Time Elapsed: {elapsed}')
-            # print(f"{self.current_time_string()}:Time Elapsed (s):{elapsed} of {totalTime}")
-            self.logFile.WriteLog(f"{self.current_time_string()}:Time Elapsed (s):{elapsed} of {totalTime}", 0)
+            print(f"{self.current_time_string()}:Time Elapsed (s):{elapsed} of {totalTime}")
+            # self.logFile.WriteLog(f"{self.current_time_string()}:Time Elapsed (s):{elapsed} of {totalTime}", 0)
             if self.currentService.trialParameters.MODE=="BreathEmulate":
                 print("Breath Emulation")
             
@@ -167,6 +177,9 @@ class ModeManager():
                 # self.logFile.WriteLog('Hardware Over Run')
                 # break
                 self.logFile.WriteLog('Hardware Overrun detected.', 1)
+                if self.ui_update_callback:
+                    # Schedule error message in red
+                    Clock.schedule_once(lambda dt: self.ui_update_callback('Hardware Overrun detected!', color=(1,0,0,1)), 0)
                 self.DAQ.ResetDAQ() # Reset the DAQ to clear the error state
                 self.modeData.STOP_FLAG = True # Set stop flag to exit the loop gracefully
                 break # Exit the while loop
@@ -174,10 +187,13 @@ class ModeManager():
                 # self.logFile.WriteLog('Buffer Over Run')
                 # break
                 self.logFile.WriteLog('Buffer Overrun detected.', 1)
+                if self.ui_update_callback:
+                    # Schedule error message in red
+                    Clock.schedule_once(lambda dt: self.ui_update_callback('Buffer Overrun detected!', color=(1,0,0,1)), 0)
                 self.DAQ.ResetDAQ() # Reset the DAQ to clear the error state
                 self.modeData.STOP_FLAG = True # Set stop flag to exit the loop gracefully
                 break # Exit the while loop
-            time.sleep(0.1)  # sleep
+            # time.sleep(0.1)  # sleep
             
 
         '''
@@ -260,15 +276,22 @@ class ModeManager():
         self.modeData.DAQ_SET = True
         self.DONE = True
 
+        # Clock.schedule_once(lambda dt: self.ui_update_callback('Analysis Complete!', (0, 1, 0, 1)), 0)
+
+
         self.currentService.dataFileManage.Write2CSV(self.DAQ.recDataFrame)
+        '''
+        if self.ui_update_callback:
+            if not self.modeData.STOP_FLAG: # Loop completed naturally
+                Clock.schedule_once(lambda dt: self.ui_update_callback('Analysis Complete!', (0, 1, 0, 1)), 0)
+            else: # Loop stopped by user or error
+                 Clock.schedule_once(lambda dt: self.ui_update_callback('Analysis Stopped or Error Occurred.', (1, 0.65, 0, 1)), 0)
+        '''
         return self.DONE
-        
 
         
 
 
-
-        
 
 class RecordMode(ModeManager):
     def __init__(self,currentService):
@@ -276,6 +299,7 @@ class RecordMode(ModeManager):
     def Run(self):
         print("entered record/combined mode")
         self.RegularModeRun()
+        return self.DONE
 
 class BreathEmulationMode(ModeManager):
     def __init__(self,currentService):
@@ -284,6 +308,7 @@ class BreathEmulationMode(ModeManager):
     def Run(self):
         print("entered be mode")
         self.RegularModeRun()
+        return self.DONE
 
 class StaticMode(ModeManager):
     def __init__(self,currentService):
@@ -291,5 +316,6 @@ class StaticMode(ModeManager):
     def Run(self):
         print("entered static mode")
         self.RegularModeRun()
+        return self.DONE
         
     

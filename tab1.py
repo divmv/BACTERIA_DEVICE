@@ -463,7 +463,7 @@ class AnalysisInfoScreen(Screen):
 
         layout.add_widget(buttons)
 
-
+        
         self.analysis_status_label = Label(
             text='',  # Initially empty
             font_size=16,
@@ -475,7 +475,7 @@ class AnalysisInfoScreen(Screen):
         )
         self.analysis_status_label.bind(size=self.analysis_status_label.setter('text_size'))
         layout.add_widget(self.analysis_status_label)
-
+        
         
 
         
@@ -495,7 +495,7 @@ class AnalysisInfoScreen(Screen):
         
     def go_to_user_screen(self, instance):
         self.manager.current = 'user'
-
+    '''
     # --- ADD THIS NEW METHOD TO UPDATE THE LABEL ---
     def update_analysis_status(self, message, color=(0, 1, 0, 1)):
         self.analysis_status_label.text = message
@@ -504,7 +504,7 @@ class AnalysisInfoScreen(Screen):
         # from kivy.clock import Clock
         # Clock.schedule_once(lambda dt: self.update_analysis_status(''), 5) # Clear after 5 seconds
     # ------------------------------------------------
-
+    '''
 
     def _create_input(self, parent, label_text, hint_text):
         box = BoxLayout(orientation='horizontal', size_hint=(1, 0.1), height=50, spacing=5)
@@ -578,7 +578,7 @@ class AnalysisInfoScreen(Screen):
             self.service_manager.deviceFlags.CONFIGURE_FLAG = True
             self.service_manager.deviceFlags.START_FLAG = True
 
-            self.update_analysis_status('Analysis started...', color=(0, 0.7, 1, 1)) # Blue-ish for "in progress"
+            # self.update_analysis_status('Analysis started...', color=(0, 0.7, 1, 1)) # Blue-ish for "in progress"
 
             # Create an instance of the appropriate mode manager based on the selected mode
             mode_class = None
@@ -588,7 +588,21 @@ class AnalysisInfoScreen(Screen):
                 mode_class = StaticMode
             elif self.service_manager.trialParameters.MODE == 'Combined':
                 mode_class = RecordMode # Assuming RecordMode is for Combined based on its print statement
+            '''
+            if mode_class:
+                # Pass the UI update callback to the ModeManager
+                self.analysis_mode_manager = mode_class(self.service_manager, ui_update_callback=self.update_analysis_status) 
 
+                # Start the analysis in a new thread
+                self.analysis_thread = threading.Thread(target=self._run_analysis_in_thread,
+                                                        args=(self.analysis_mode_manager, self.service_manager.trialParameters.MODE))
+                self.analysis_thread.start()
+
+                self.update_analysis_status('Analysis starting...', color=(0, 0.7, 1, 1))
+            else:
+                self.update_analysis_status('Error: No analysis mode selected!', color=(1, 0, 0, 1))
+            '''
+            '''
             if mode_class:
                 self.analysis_mode_manager = mode_class(self.service_manager) # Store the instance
                 # --- Start the analysis in a new thread ---
@@ -597,26 +611,29 @@ class AnalysisInfoScreen(Screen):
                 # ------------------------------------------
             else:
                 self.update_analysis_status('Error: No analysis mode selected!', color=(1, 0, 0, 1)) # Red for error
-    def _run_analysis_in_thread(self):
+            '''
+    '''
+    def _run_analysis_in_thread(self, mode_manager_instance, mode_name):
         # This method runs in a separate thread
         print(f"Analysis thread started for mode: {self.service_manager.trialParameters.MODE}")
         # Call the Run method of the selected ModeManager subclass
         is_done = self.analysis_mode_manager.Run() # This method returns self.DONE
         print(f"Analysis thread finished. Done status: {is_done}")
-
+        
         # Update the UI on the main Kivy thread
         if is_done:
             # Schedule the UI update to happen on the next frame of the Kivy event loop
             Clock.schedule_once(lambda dt: self.update_analysis_status('Analysis Complete!', (0, 1, 0, 1)), 0)
         else:
             Clock.schedule_once(lambda dt: self.update_analysis_status('Analysis Complete!.', (0, 0.6, 0, 1)), 0)
-
+    '''   
+    
 
     def stop_action(self, instance):
         if self.service_manager:
             self.service_manager.deviceFlags.START_FLAG = False
             self.service_manager.deviceFlags.STOP_FLAG = True
-            self.update_analysis_status('Analysis stopping...', color=(1, 0.65, 0, 1)) # Orange color
+            # self.update_analysis_status('Analysis stopping...', color=(1, 0.65, 0, 1)) # Orange color
 
     
     def populate_fields_from_params(self):
