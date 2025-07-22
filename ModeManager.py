@@ -65,6 +65,8 @@ class ModeManager():
     def __init__(self, currentService, ui_update_callback=None):
         self.currentService = currentService
         self.logFile = self.currentService.logFileManage
+        print("name:")
+        print(self.logFile)
         # self.ui_update_callback = ui_update_callback 
 
         self.stateSet = True

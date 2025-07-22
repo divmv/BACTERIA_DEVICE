@@ -21,14 +21,18 @@ from ServiceManager import ServiceManager
 from DAQManager import DAQManager
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-# from DataClasses import DeviceFlags
-# from ModeManager import ModeManager
 
 import os
 import glob
 import csv
+import subprocess
+import threading
 
 from kivy.uix.behaviors import ButtonBehavior
+
+RCLONE_REMOTE_NAME = 'pranas_pi'
+# Define the desired path on your OneDrive for plot images
+ONEDRIVE_PLOTS_PATH = 'BACTERIA_DEVICE_UPLOADS/PlotData/Signals'
 
 class ClickableImage(ButtonBehavior, Image):
     pass
@@ -64,6 +68,29 @@ class SignalColumn(BoxLayout):
         self.add_widget(footer)
         '''
 
+    def _upload_plot_to_onedrive(self, local_plot_path):
+        """Helper method to upload a plot file using rclone."""
+        # Ensure the remote destination path exists on OneDrive.
+        # rclone will create it if it doesn't, but explicitly creating it
+        # makes the intent clearer.
+        remote_destination_path = ONEDRIVE_PLOTS_PATH
+        remote_path = f"{RCLONE_REMOTE_NAME}:{remote_destination_path}"
+        
+        # Command to copy the specific plot file
+        command = ['rclone', 'copy', local_plot_path, remote_path]
+        
+        try:
+            # print(f"Uploading plot {os.path.basename(local_plot_path)} to OneDrive: {remote_path}")
+            result = subprocess.run(command, capture_output=True, text=True, check=True)
+            # print(f"Plot upload successful: {result.stdout}")
+        except subprocess.CalledProcessError as e:
+            print(f"Error uploading plot {os.path.basename(local_plot_path)}: {e.stderr}")
+            # Optionally log this to your log file as well
+            # self.service_manager.logFileManage.WriteLog(f"ERROR: Failed to upload plot {os.path.basename(local_plot_path)}: {e.stderr}", 1)
+        except FileNotFoundError:
+            print("Error: rclone command not found. Is rclone installed and in PATH?")
+            # self.service_manager.logFileManage.WriteLog("ERROR: rclone command not found for plot upload.", 1)
+
     
     def create_header(self):
         header = BoxLayout(orientation='horizontal', size_hint=(1, 0.1), padding=10)
@@ -91,7 +118,7 @@ class SignalColumn(BoxLayout):
             # background_color=(0.2, 0.2, 0.2, 1),
             # color=(1, 1, 0, 1),
             font_size=14,
-            size=(90, 20),
+            size=(150, 20),
             # pos_hint={'center_x': 0.6},
             disabled = False
         )
@@ -119,7 +146,7 @@ class SignalColumn(BoxLayout):
             # background_color=(0.2, 0.2, 0.2, 1),
             # color=(1, 1, 0, 1),
             font_size=14,
-            size=(90, 20),
+            size=(150, 20),
             # pos_hint={'center_x': 0.6},
             disabled = False
         )
@@ -194,6 +221,8 @@ class SignalColumn(BoxLayout):
         plt.savefig(plot_path, dpi=200)
         plt.close(fig) # Close the figure to free up memory
         print(f"Saved 3D plot: {plot_path}")
+
+        self._upload_plot_to_onedrive(plot_path)
 
         '''
         plt.scatter(time_array, xpos_data, s=10, c='black')
@@ -279,6 +308,8 @@ class SignalColumn(BoxLayout):
         powplot_path = os.path.join(file_path, f"{plot_filename_base}.png")
         plt.savefig(powplot_path, dpi=200)
         plt.close()
+
+        self._upload_plot_to_onedrive(powplot_path)
 
         latest_plot_path = self.get_latest_plot_path(file_path)
 

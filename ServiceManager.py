@@ -34,7 +34,7 @@ class ServiceManager:
                         
         def configure_device(self):
                 """Handle device configuration."""
-                self.logFileManage = LogFileManage(self)
+                # self.logFileManage = LogFileManage(self)
                 self.dataFileManage = DataFileManage(self)
                 
                 # # Write configuration logs
@@ -97,6 +97,7 @@ class ServiceManager:
                         data_file_path = os.path.join(self.dataFileManage.RecordDataFolder, self.dataFileManage.data_file_name)
 
                         print(f"Storing log file locally: {log_file_path}")
+                        # print(log)
                         print(f"Storing data file locally: {data_file_path}")
 
                         # Simulate sending files locally
