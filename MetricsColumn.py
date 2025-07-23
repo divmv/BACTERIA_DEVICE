@@ -14,21 +14,23 @@ import numpy as np
 import time
 from kivy.uix.popup import Popup
 
-
 from tab1 import Tab1Content
 from tab2 import Tab2Content
 from tab3 import Tab3Content
 from ServiceManager import ServiceManager
 from DAQManager import DAQManager
 import matplotlib.pyplot as plt
-# from DataClasses import DeviceFlags
-# from ModeManager import ModeManager
 
 import os
 import glob
 import csv
+import subprocess
+import threading
 
 from kivy.uix.behaviors import ButtonBehavior
+
+RCLONE_REMOTE_NAME = 'pranas_pi'
+ONEDRIVE_PLOTS_PATH = 'BACTERIA_DEVICE_UPLOADS/PlotData/Metrics'
 
 class ClickableImage(ButtonBehavior, Image):
     pass
@@ -63,6 +65,19 @@ class MetricsColumn(BoxLayout):
         footer = self.create_footer()
         self.add_widget(footer)
         '''
+
+    def _upload_plot_to_onedrive(self, local_plot_path):
+        remote_destination_path = ONEDRIVE_PLOTS_PATH
+        remote_path = f"{RCLONE_REMOTE_NAME}:{remote_destination_path}"
+
+        command = ['rclone', 'copy', local_plot_path, remote_path]
+        
+        try:
+            result = subprocess.run(command, capture_output=True, text=True, check=True)
+        except subprocess.CalledProcessError as e:
+            print(f"Error uploading plot {os.path.basename(local_plot_path)}: {e.stderr}")
+        except FileNotFoundError:
+            print("Error: rclone command not found. Is rclone installed and in PATH?")
 
     
     def create_header(self):
@@ -179,6 +194,7 @@ class MetricsColumn(BoxLayout):
         bdeplot_path = os.path.join(file_path, f"{plot_filename_base}.png")
         plt.savefig(bdeplot_path, dpi=200)
         plt.close()
+        self._upload_plot_to_onedrive(bdeplot_path)
 
         latest_plot_path = self.get_latest_plot_path(file_path)
 
@@ -235,6 +251,8 @@ class MetricsColumn(BoxLayout):
         sivplot_path = os.path.join(file_path, f"{plot_filename_base}.png")
         plt.savefig(sivplot_path, dpi=200)
         plt.close()
+
+        self._upload_plot_to_onedrive(sivplot_path)
 
         latest_plot_path = self.get_latest_plot_path(file_path)
 

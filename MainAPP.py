@@ -61,7 +61,7 @@ class PranasApp(App):
             print("DAQ instance not found or not initialized in on_stop.")
 
         print("Application shutdown complete.")
-    '''
+    
     def on_stop(self):
         """
         This method is called when the Kivy application is stopping.
@@ -99,7 +99,7 @@ class PranasApp(App):
             print("DAQ instance not found or not initialized in on_stop.")
 
         print("Application shutdown complete.")
-
+    '''
 
 if __name__ == '__main__':
     PranasApp().run()

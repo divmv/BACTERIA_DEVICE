@@ -168,7 +168,7 @@ class ModeManager():
             
             # print(f'Time Elapsed: {elapsed}')
             print(f"{self.current_time_string()}:Time Elapsed (s):{elapsed} of {totalTime}")
-            # self.logFile.WriteLog(f"{self.current_time_string()}:Time Elapsed (s):{elapsed} of {totalTime}", 0)
+            self.logFile.WriteLog(f"{self.current_time_string()}:Time Elapsed (s):{elapsed} of {totalTime}", 0)
             if self.currentService.trialParameters.MODE=="BreathEmulate":
                 print("Breath Emulation")
             

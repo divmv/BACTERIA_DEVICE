@@ -31,10 +31,11 @@ class ServiceManager:
                         self.stop_mode()
                 if self.deviceFlags.SEND_FILE:
                         self.send_files()
+                        # self.deviceFlags.SEND_FILE = False
                         
         def configure_device(self):
                 """Handle device configuration."""
-                # self.logFileManage = LogFileManage(self)
+                self.logFileManage = LogFileManage(self)
                 self.dataFileManage = DataFileManage(self)
                 
                 # # Write configuration logs
@@ -89,7 +90,7 @@ class ServiceManager:
                 """Stop the current mode."""
                 print("Mode stopped.")
                 self.deviceFlags.STOP_FLAG = False
-
+        '''
         def send_files(self):
                 """Send log and data files."""
                 if self.logFileManage and self.dataFileManage:
@@ -104,6 +105,26 @@ class ServiceManager:
                         # Replace this with actual file management logic
                         self.deviceFlags.SEND_FILE = False
                         print("Files sent.")
+        '''
+        def send_files(self):
+                """Send log and data files."""
+                # Check if logFileManage and dataFileManage are initialized
+                # self.dataFileManage is initialized in configure_device,
+                # self.logFileManage is initialized in __init__
+                if hasattr(self, 'logFileManage') and hasattr(self, 'dataFileManage'):
+                        log_file_path = self.logFileManage.log_file_path # Access the stored path directly
+                        data_file_path = os.path.join(self.dataFileManage.RecordDataFolder, self.dataFileManage.data_file_name)
+
+                        print(f"Storing log file locally: {log_file_path}")
+                        print(f"Storing data file locally: {data_file_path}")
+
+                        # Trigger the upload methods for both log and data files
+                        # dataFileManage.Write2CSV already triggers its own upload,
+                        # so we just need to trigger the log upload.
+                        self.logFileManage.upload_log_file() # Call the new log upload method
+
+                        print("Files sent.")
+                        self.deviceFlags.SEND_FILE = False # Reset flag after handling
 
         def GetCurrentTime(self,tpe):
                 #Gets current time and returns in string and integer format

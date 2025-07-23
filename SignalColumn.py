@@ -31,7 +31,6 @@ import threading
 from kivy.uix.behaviors import ButtonBehavior
 
 RCLONE_REMOTE_NAME = 'pranas_pi'
-# Define the desired path on your OneDrive for plot images
 ONEDRIVE_PLOTS_PATH = 'BACTERIA_DEVICE_UPLOADS/PlotData/Signals'
 
 class ClickableImage(ButtonBehavior, Image):
@@ -69,27 +68,17 @@ class SignalColumn(BoxLayout):
         '''
 
     def _upload_plot_to_onedrive(self, local_plot_path):
-        """Helper method to upload a plot file using rclone."""
-        # Ensure the remote destination path exists on OneDrive.
-        # rclone will create it if it doesn't, but explicitly creating it
-        # makes the intent clearer.
         remote_destination_path = ONEDRIVE_PLOTS_PATH
         remote_path = f"{RCLONE_REMOTE_NAME}:{remote_destination_path}"
-        
-        # Command to copy the specific plot file
+
         command = ['rclone', 'copy', local_plot_path, remote_path]
         
         try:
-            # print(f"Uploading plot {os.path.basename(local_plot_path)} to OneDrive: {remote_path}")
             result = subprocess.run(command, capture_output=True, text=True, check=True)
-            # print(f"Plot upload successful: {result.stdout}")
         except subprocess.CalledProcessError as e:
             print(f"Error uploading plot {os.path.basename(local_plot_path)}: {e.stderr}")
-            # Optionally log this to your log file as well
-            # self.service_manager.logFileManage.WriteLog(f"ERROR: Failed to upload plot {os.path.basename(local_plot_path)}: {e.stderr}", 1)
         except FileNotFoundError:
             print("Error: rclone command not found. Is rclone installed and in PATH?")
-            # self.service_manager.logFileManage.WriteLog("ERROR: rclone command not found for plot upload.", 1)
 
     
     def create_header(self):
