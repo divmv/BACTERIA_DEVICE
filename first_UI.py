@@ -27,9 +27,9 @@ import os
 import glob
 import csv
 
-# Window.show_cursor = False
+Window.show_cursor = False
 # Config.set('input', 'mouse', 'mouse,disable')
-# Window.fullscreen = True
+Window.fullscreen = True
 # Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 
 
