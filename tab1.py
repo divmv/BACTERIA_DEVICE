@@ -547,17 +547,9 @@ class AnalysisInfoScreen(Screen):
             self.current_input.focus = False
             if self.vkeyboard.parent:
                 self.remove_widget(self.vkeyboard)
-        elif key == 'capslock':
-            self.is_caps_locked = not self.is_caps_locked
-            self.vkeyboard.set_caps(self.is_caps_locked)
         else: # This block handles actual character insertion
-            # If capslock is active AND the key is an alphabetic character,
-            # convert it to uppercase before inserting.
-            if self.is_caps_locked and key_str.isalpha():
-                self.current_input.insert_text(key.upper())
-            else:
-                # Otherwise, insert the key as is (lowercase or non-alphabetic)
-                self.current_input.insert_text(key)
+            self.current_input.insert_text(key)
+
 
 
     # when the start button is pressed, the rest of the data entered is updated to the trial parameter variables

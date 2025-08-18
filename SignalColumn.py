@@ -193,27 +193,7 @@ class SignalColumn(BoxLayout):
 
 
         # Make the plot and save
-        fig = plt.figure(figsize=(12,6))
-        ax = fig.add_subplot(111, projection='3d')
-        ax.scatter(xpos_data, ypos_data, pow_data, c='blue', marker='o', s=10, alpha=0.6)
-
-        # Set labels for the axes
-        ax.set_xlabel('X Pos')
-        ax.set_ylabel('Y Pos')
-        ax.set_zlabel('Pow')
-        ax.set_title('3D Plot: Xpos, Ypos, and Power')
-
-        plt.tight_layout() # Adjust layout to prevent labels/titles from overlapping
-        
-        # Save the 3D plot
-        plot_path = os.path.join(file_path, f"{plot_filename_base}.png")
-        plt.savefig(plot_path, dpi=200)
-        plt.close(fig) # Close the figure to free up memory
-        print(f"Saved 3D plot: {plot_path}")
-
-        self._upload_plot_to_onedrive(plot_path)
-
-        '''
+        plt.figure(figsize=(12,6))
         plt.scatter(time_array, xpos_data, s=10, c='black')
         plt.xlabel('Time (s)')
         plt.ylabel('Xpos')
@@ -224,6 +204,26 @@ class SignalColumn(BoxLayout):
         plt.savefig(xplot_path, dpi=200)
         plt.close()
         '''
+        ax = fig.add_subplot(111, projection='3d')
+        ax.scatter(xpos_data, ypos_data, pow_data, c='blue', marker='o', s=10, alpha=0.6)
+
+        # Set labels for the axes
+        ax.set_xlabel('X Pos')
+        ax.set_ylabel('Time')
+        ax.set_title('Xpos vs Time')
+
+        plt.tight_layout() # Adjust layout to prevent labels/titles from overlapping
+        
+        # Save the 3D plot
+        plot_path = os.path.join(file_path, f"{plot_filename_base}.png")
+        plt.savefig(plot_path, dpi=200)
+        plt.close(fig) # Close the figure to free up memory
+        '''
+        print(f"Saved plot: {xplot_path}")
+
+        self._upload_plot_to_onedrive(xplot_path)
+
+        
         latest_plot_path = self.get_latest_plot_path(file_path)
 
         # timestamp = time.time()
