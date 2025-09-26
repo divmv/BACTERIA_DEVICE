@@ -46,12 +46,21 @@ class UserInfoScreen(Screen):
         self.current_input = None
 
         layout = BoxLayout(orientation='vertical', spacing=5, padding=5)
+
+        welcome_label3 = Label(
+            text="Bacteria Analysis",
+            font_size=25,
+            size_hint=(1, 0.15),  # Small space at the top
+            halign='center',
+            valign='middle'
+        )
+        layout.add_widget(welcome_label3)
         
         welcome_label = Label(
             text="Choose an option:",
             font_size=20,
             size_hint=(1, 0.15),  # Small space at the top
-            halign='center',
+            halign='left',
             valign='middle'
         )
         layout.add_widget(welcome_label)
@@ -345,8 +354,8 @@ class OldAnalysisInfoScreen(Screen):
                 self.service_manager.trialParameters.MODE = 'BreathEmulate'
             elif self.option2.active:
                 self.service_manager.trialParameters.MODE = 'Static'
-            elif self.option3.active:
-                self.service_manager.trialParameters.MODE = 'Combined'
+            # elif self.option3.active:
+            #     self.service_manager.trialParameters.MODE = 'Combined'
 
             self.service_manager.deviceFlags.CONFIGURE_FLAG = True
             self.service_manager.deviceFlags.START_FLAG = True
@@ -393,16 +402,16 @@ class AnalysisInfoScreen(Screen):
         self.is_caps_locked = False
 
         layout = BoxLayout(orientation='vertical', spacing=3, padding=5)
-        '''
+    
         welcome_label3 = Label(
-            text="New Analysis",
+            text="Bacteria Analysis",
             font_size=15,
             size_hint=(1, 0.15),  # Small space at the top
             halign='center',
             valign='middle'
         )
         layout.add_widget(welcome_label3)
-        '''
+        
         self.user_name_input = self._create_input(layout, 'User Name:', 'Enter username')
         self.trial_number_input = self._create_input(layout, 'Trial Number:', 'Enter trial number')
         self.bacteria_name_input = self._create_input(layout, 'Bacteria Name:', 'Enter bacteria name')
@@ -415,12 +424,12 @@ class AnalysisInfoScreen(Screen):
         self.option2 = CheckBox(group='analysis')
         self.option3 = CheckBox(group='analysis')
 
-        radio_box.add_widget(Label(text='BreathEmulate', font_size=14))
+        radio_box.add_widget(Label(text='Slides', font_size=14))
         radio_box.add_widget(self.option1)
-        radio_box.add_widget(Label(text='Static', font_size=14))
+        radio_box.add_widget(Label(text='Quette', font_size=14))
         radio_box.add_widget(self.option2)
-        radio_box.add_widget(Label(text='Combined', font_size=14))
-        radio_box.add_widget(self.option3)
+        # radio_box.add_widget(Label(text='Combined', font_size=14))
+        # radio_box.add_widget(self.option3)
         layout.add_widget(radio_box)
         
 
@@ -564,8 +573,8 @@ class AnalysisInfoScreen(Screen):
                 self.service_manager.trialParameters.MODE = 'BreathEmulate'
             elif self.option2.active:
                 self.service_manager.trialParameters.MODE = 'Static'
-            elif self.option3.active:
-                self.service_manager.trialParameters.MODE = 'Combined'
+            # elif self.option3.active:
+            #     self.service_manager.trialParameters.MODE = 'Combined'
 
             self.service_manager.deviceFlags.CONFIGURE_FLAG = True
             self.service_manager.deviceFlags.START_FLAG = True
@@ -578,8 +587,8 @@ class AnalysisInfoScreen(Screen):
                 mode_class = BreathEmulationMode
             elif self.service_manager.trialParameters.MODE == 'Static':
                 mode_class = StaticMode
-            elif self.service_manager.trialParameters.MODE == 'Combined':
-                mode_class = RecordMode # Assuming RecordMode is for Combined based on its print statement
+            # elif self.service_manager.trialParameters.MODE == 'Combined':
+            #     mode_class = RecordMode # Assuming RecordMode is for Combined based on its print statement
             '''
             if mode_class:
                 # Pass the UI update callback to the ModeManager
@@ -640,7 +649,7 @@ class AnalysisInfoScreen(Screen):
 
         self.option1.active = params.MODE == 'BreathEmulate'
         self.option2.active = params.MODE == 'Static'
-        self.option3.active = params.MODE == 'Combined'
+        # self.option3.active = params.MODE == 'Combined'
 
 
     

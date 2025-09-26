@@ -107,14 +107,14 @@ class SignalColumn(BoxLayout):
             # background_color=(0.2, 0.2, 0.2, 1),
             # color=(1, 1, 0, 1),
             font_size=14,
-            size=(150, 20),
+            size=(90, 20),
             # pos_hint={'center_x': 0.6},
             disabled = False
         )
 
         self.load_button.bind(on_press=self.on_xpos_press)
         self.button_row.add_widget(self.load_button)
-        '''
+        
         self.load_button2 = Button(
             text='Ypos',
             size_hint=(None,None),
@@ -124,18 +124,18 @@ class SignalColumn(BoxLayout):
             size=(90, 20),
             # pos_hint={'center_x': 0.6},
             disabled = False
-        )
+        )   
 
         self.load_button2.bind(on_press=self.on_ypos_press)
         self.button_row.add_widget(self.load_button2)
-        '''
+        
         self.load_button3 = Button(
             text='Pow',
             size_hint=(None,None),
             # background_color=(0.2, 0.2, 0.2, 1),
             # color=(1, 1, 0, 1),
             font_size=14,
-            size=(150, 20),
+            size=(90, 20),
             # pos_hint={'center_x': 0.6},
             disabled = False
         )
@@ -265,6 +265,52 @@ class SignalColumn(BoxLayout):
         graph_image.reload()
         self.graph_container.add_widget(graph_image)
     '''
+
+    def on_ypos_press(self, instance):
+        file_path = 'PlotData/Signals'
+        if not os.path.exists(file_path):
+            os.makedirs(file_path)
+            print(f"Created directory: {file_path}")
+
+        if os.path.exists('yposplot.png'):
+            os.remove('yposplot.png')
+        self.graph_container.clear_widgets()
+        self.DAQ.StartDAQ()
+        msg, self.total_samples_read, xpos_data, ypos_data, pow_data = self.DAQ.ScanDAQ(self.total_samples_read, self.nebState)
+        record_dur = self.service_manager.trialParameters.RECORD_DURATION
+        num_samples = len(ypos_data)
+        time_array = np.linspace(0, self.service_manager.trialParameters.RECORD_DURATION, num_samples)
+        print(record_dur)
+
+        timestamp = time.strftime("%Y%m%d_%H%M%S")
+        plot_filename_base = f"yposplot_{timestamp}"
+
+
+        # Make the plot and save
+        plt.figure(figsize=(12,6))
+        plt.scatter(time_array, pow_data, s=10, c='blue')
+        plt.xlabel('Time (s)')
+        plt.ylabel('Y Pos')
+        plt.title('Y Pos vs Time')
+        plt.tight_layout()
+        # plt.savefig('xplot.png', dpi=200)
+        yposplot_path = os.path.join(file_path, f"{plot_filename_base}.png")
+        plt.savefig(yposplot_path, dpi=200)
+        plt.close()
+
+        self._upload_plot_to_onedrive(yposplot_path)
+
+        latest_plot_path = self.get_latest_plot_path(file_path)
+
+        # timestamp = time.time()
+        graph_image = ClickableImage(source=f'{latest_plot_path}', allow_stretch=True, keep_ratio=True)
+        # graph_image = ClickableImage(source='xplot.png', allow_stretch=True, keep_ratio=True)
+        graph_image.size_hint = (0.9, 0.9)
+        graph_image.pos_hint = {'center_x': 0.6, 'center_y': 0.5}
+        graph_image.bind(on_press=self.show_large_image)
+        graph_image.reload()
+        self.graph_container.add_widget(graph_image)
+
 
     def on_pow_press(self, instance):
         file_path = 'PlotData/Signals'

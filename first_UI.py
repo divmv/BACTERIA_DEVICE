@@ -27,9 +27,10 @@ import os
 import glob
 import csv
 
-Window.show_cursor = False
+# Window.show_cursor = False
+# Window.fullscreen = True
+
 # Config.set('input', 'mouse', 'mouse,disable')
-Window.fullscreen = True
 # Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 
 
@@ -125,17 +126,17 @@ class HeaderFooterLayout(BoxLayout):
         tab_panel = TabbedPanel(do_default_tab=False)  # Disable default tab
 
         # Create Tab 1
-        self.tab1 = TabbedPanelItem(text='Tab 1')
+        self.tab1 = TabbedPanelItem(text='Bacteria')
         self.tab1.content = Tab1Content(self.service_manager)
         tab_panel.add_widget(self.tab1)
 
         # Create Tab 2
-        self.tab2 = TabbedPanelItem(text='Tab 2')
+        self.tab2 = TabbedPanelItem(text='Breath')
         self.tab2.content = Tab2Content()
         tab_panel.add_widget(self.tab2)
 
         # Create Tab 3
-        self.tab3 = TabbedPanelItem(text='Tab 3')
+        self.tab3 = TabbedPanelItem(text='Animal')
         self.tab3.content = Tab3Content()
         tab_panel.add_widget(self.tab3)
 
@@ -311,8 +312,8 @@ class HeaderFooterLayout(BoxLayout):
         """Reset the content of all tabs to their initial state."""
         current_tab = self.tab_panel.current_tab
         self.tab1.content = Tab1Content(self.service_manager)
-        self.tab2.content = Tab2Content()
-        self.tab3.content = Tab3Content()
+        self.tab2.content = Tab2Content(self.service_manager)
+        self.tab3.content = Tab3Content(self.service_manager)
 
     def create_footer(self):
         """Create the footer layout with images and text."""

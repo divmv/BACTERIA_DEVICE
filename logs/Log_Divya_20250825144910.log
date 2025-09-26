@@ -1,0 +1,49 @@
+Log started on 8/25/2025
+Initialized local system at 14:49:10
+UID: EColi
+Mode: Static
+Trial: 3
+Duration: 30 seconds
+User: Divya
+-----------------------------------
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 1000 
+Actual Scan Rate: 1000.0 
+14:49:10:: Recording Started
+Total Duration: 30 seconds
+14:49:10:Recording Started
+14:49:11:Time Elapsed (s):1 of 30
+14:49:12:Time Elapsed (s):2 of 30
+14:49:13:Time Elapsed (s):3 of 30
+14:49:14:Time Elapsed (s):4 of 30
+14:49:16:Time Elapsed (s):5 of 30
+14:49:16:Time Elapsed (s):6 of 30
+14:49:18:Time Elapsed (s):7 of 30
+14:49:18:Time Elapsed (s):8 of 30
+14:49:19:Time Elapsed (s):9 of 30
+14:49:20:Time Elapsed (s):10 of 30
+14:49:21:Time Elapsed (s):11 of 30
+14:49:22:Time Elapsed (s):12 of 30
+14:49:23:Time Elapsed (s):13 of 30
+14:49:24:Time Elapsed (s):14 of 30
+14:49:25:Time Elapsed (s):15 of 30
+14:49:26:Time Elapsed (s):16 of 30
+14:49:27:Time Elapsed (s):17 of 30
+14:49:29:Time Elapsed (s):18 of 30
+14:49:29:Time Elapsed (s):19 of 30
+14:49:30:Time Elapsed (s):20 of 30
+14:49:31:Time Elapsed (s):21 of 30
+14:49:32:Time Elapsed (s):22 of 30
+14:49:33:Time Elapsed (s):23 of 30
+14:49:35:Time Elapsed (s):24 of 30
+14:49:35:Time Elapsed (s):25 of 30
+14:49:37:Time Elapsed (s):26 of 30
+14:49:37:Time Elapsed (s):27 of 30
+14:49:38:Time Elapsed (s):28 of 30
+14:49:39:Time Elapsed (s):29 of 30
+14:49:40:Time Elapsed (s):30 of 30
+14:49:40:Recording Ended 
+Data Recording Complete for a Duration of 30s
+Final Data Frame Size:(30000, 4)
