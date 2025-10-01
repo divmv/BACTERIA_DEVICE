@@ -12,6 +12,8 @@ from kivy.core.window import Window
 from kivy.config import Config
 import numpy as np
 import time
+from flask import Flask, render_template, request,redirect
+import requests
 from kivy.uix.popup import Popup
 
 from tab1 import Tab1Content
@@ -20,6 +22,7 @@ from tab3 import Tab3Content
 from ServiceManager import ServiceManager
 from DAQManager import DAQManager
 import matplotlib.pyplot as plt
+import DataProcessor as dp
 
 import os
 import glob
@@ -170,6 +173,16 @@ class MetricsColumn(BoxLayout):
         self.DAQ.StartDAQ()
         msg, self.total_samples_read, xpos_data, ypos_data, pow_data = self.DAQ.ScanDAQ(self.total_samples_read, self.nebState)
 
+        # #----- INCLUDE DATA PROCESSING HERE -----#
+        # # request.method == 'POST'
+        # # folder_path = request.form.get('folder')
+        # folder_path = 'ProcessedData'
+        # if not os.path.exists(folder_path):
+        #     os.makedirs(folder_path)
+        # dp.create_and_move_csv(folder_path)
+
+
+        # #----- DATA PROCESSING ENDS HEREEEEE -----#
         xpos_data = np.array(xpos_data)
         ypos_data = np.array(ypos_data)
         pow_data  = np.array(pow_data)

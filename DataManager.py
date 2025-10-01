@@ -5,6 +5,9 @@ import pandas as pd
 import subprocess
 import threading
 
+import DataProcessor as dp
+
+
 RCLONE_REMOTE_NAME = 'pranas_pi'
 ONEDRIVE_LOG_PATH = 'BACTERIA_DEVICE_UPLOADS/Logs'
 ONEDRIVE_DATA_PATH = 'BACTERIA_DEVICE_UPLOADS/RecordedData'
@@ -61,7 +64,7 @@ class LogFileManage:
                 # upload_thread.start()
 
         def _upload_to_onedrive(self, local_file_path, remote_destination_path):
-                """Helper method to upload a file using rclone."""
+
                 remote_path = f"{RCLONE_REMOTE_NAME}:{remote_destination_path}"
                 command = ['rclone', 'copy', '-vv', local_file_path, remote_path]
                 
@@ -91,7 +94,7 @@ class LogFileManage:
                         print(f"Log file '{self.log_file_name}' upload process finished.")
         
         def _close_log_file(self):
-                """Internal method to ensure the log file is closed."""
+
                 if self.log_file:
                         try:
                                 self.log_file.flush() # Flush any remaining buffered data
@@ -121,12 +124,14 @@ class DataFileManage:
                                          args=(data_file_path, ONEDRIVE_DATA_PATH))
                 upload_thread.daemon = True
                 upload_thread.start()
+
+                self.DataProcess()
         
         def ReadFrmCSV(self,fileName):
                 return pd.read_csv(fileName)
 
         def _upload_to_onedrive(self, local_file_path, remote_destination_path):
-                """Helper method to upload a file using rclone."""
+
                 remote_path = f"{RCLONE_REMOTE_NAME}:{remote_destination_path}"
                 command = ['rclone', 'copy', local_file_path, remote_path]
                 
@@ -139,6 +144,16 @@ class DataFileManage:
                 except FileNotFoundError:
                         print("Error: rclone command not found. Is rclone installed and in PATH?")
 
+        def DataProcess(self):
+                #----- INCLUDE DATA PROCESSING HERE -----#
+
+                input_folder = self.RecordDataFolder  
+                result = dp.create_and_move_csv(input_folder)
+                print("Data processing finished:", result)
+                return result
+
+
+                #----- DATA PROCESSING ENDS HEREEEEE -----#
 
         '''
         def ReadFrmCSV(self):

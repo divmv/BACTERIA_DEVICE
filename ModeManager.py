@@ -140,6 +140,7 @@ class ModeManager():
         self.total_samples_read=0
         startTime=time.time()
         totalTime = self.currentService.trialParameters.RECORD_DURATION
+
         # print(f'Start time: {self.current_time_string()}')
         self.logFile.WriteLog(f": Recording Started", 1)
         # print(current_time_string() + ":Recording Started")
@@ -298,9 +299,20 @@ class ModeManager():
 class RecordMode(ModeManager):
     def __init__(self,currentService):
         ModeManager.__init__(self,currentService)
+    # def Run(self):
+    #     print("entered record/combined mode")
+    #     self.RegularModeRun()
+    #     return self.DONE
     def Run(self):
-        print("entered record/combined mode")
-        self.RegularModeRun()
+        print("entered BE mode")
+        # iterations = getattr(self.currentService.trialParameters, 'ITERATIONS', 1)
+        iterations = int(self.currentService.trialParameters.ITERATIONS)
+        for i in range(iterations):
+            print(f"Starting iteration {i+1} of {iterations}")
+            done = self.RegularModeRun()  # Run the analysis once
+            if self.modeData.STOP_FLAG:  # Stop early if user presses STOP
+                print("Analysis stopped by user.")
+                break
         return self.DONE
 
 class BreathEmulationMode(ModeManager):

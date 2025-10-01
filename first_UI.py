@@ -77,7 +77,7 @@ class HeaderFooterLayout(BoxLayout):
         header.add_widget(Image(source='Images/icon.ico', size_hint=(0.1, 1)))
 
         header.add_widget(Label(
-            text='Personal Respiratory Analyzing System',
+            text='RD3 Analysis System',
             font_size=40, bold=True, halign='left', color=(0, 1, 0, 1)
         ))
 

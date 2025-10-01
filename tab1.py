@@ -273,6 +273,7 @@ class OldAnalysisInfoScreen(Screen):
                         self.service_manager.trialParameters.UID = value
                     elif key in ['DURATION', 'RECORD_DURATION']:
                         self.service_manager.trialParameters.RECORD_DURATION = int(value.split()[0])  # e.g., "5 seconds"
+
                     elif key == 'MODE':
                         self.service_manager.trialParameters.MODE = value
             return True
@@ -348,6 +349,7 @@ class OldAnalysisInfoScreen(Screen):
             self.service_manager.trialParameters.USER = self.user_name_input.text
             self.service_manager.trialParameters.TRIAL = int(self.trial_number_input.text) if self.trial_number_input.text.isdigit() else 0
             self.service_manager.trialParameters.RECORD_DURATION = int(self.record_duration_input.text) if self.record_duration_input.text.isdigit() else 0
+            self.service_manager.trialParameters.ITERATIONS = int(self.iterations_input.text) if self.iterations_input.text.isdigit() else 1
             self.service_manager.trialParameters.UID = self.bacteria_name_input.text
 
             if self.option1.active:
@@ -357,7 +359,7 @@ class OldAnalysisInfoScreen(Screen):
             # elif self.option3.active:
             #     self.service_manager.trialParameters.MODE = 'Combined'
 
-            self.service_manager.deviceFlags.CONFIGURE_FLAG = True
+            self.service_manager.deviceFlags.CONFIGURE_FLAG = True  
             self.service_manager.deviceFlags.START_FLAG = True
 
     def stop_action(self, instance):
@@ -416,6 +418,7 @@ class AnalysisInfoScreen(Screen):
         self.trial_number_input = self._create_input(layout, 'Trial Number:', 'Enter trial number')
         self.bacteria_name_input = self._create_input(layout, 'Bacteria Name:', 'Enter bacteria name')
         self.record_duration_input = self._create_input(layout, 'Record Duration:', 'Enter record duration')
+        self.iterations_input = self._create_input(layout, 'Iterations:', 'Enter the run count')
         
         layout.add_widget(Label(text='Analysis Type:', size_hint_y=None, height=30, font_size=14))
 
@@ -426,7 +429,7 @@ class AnalysisInfoScreen(Screen):
 
         radio_box.add_widget(Label(text='Slides', font_size=14))
         radio_box.add_widget(self.option1)
-        radio_box.add_widget(Label(text='Quette', font_size=14))
+        radio_box.add_widget(Label(text='Cuvette', font_size=14))
         radio_box.add_widget(self.option2)
         # radio_box.add_widget(Label(text='Combined', font_size=14))
         # radio_box.add_widget(self.option3)
@@ -518,7 +521,7 @@ class AnalysisInfoScreen(Screen):
     def _create_input(self, parent, label_text, hint_text):
         box = BoxLayout(orientation='horizontal', size_hint=(1, 0.1), height=50, spacing=5)
         label = Label(text=label_text, size_hint=(0.3, 1))
-        input_field = TextInput(hint_text=hint_text, size_hint=(0.7, 1), font_size=12, padding=[2,2], background_color=(1,1,1,1), keyboard_mode='auto')
+        input_field = TextInput(hint_text=hint_text, size_hint=(0.7, 1), width=50, font_size=12, padding=[2,2], background_color=(1,1,1,1), keyboard_mode='auto')
         input_field.bind(focus=self.on_focus)
         box.add_widget(label)
         box.add_widget(input_field)
@@ -568,6 +571,7 @@ class AnalysisInfoScreen(Screen):
             self.service_manager.trialParameters.TRIAL = int(self.trial_number_input.text) if self.trial_number_input.text.isdigit() else 0
             self.service_manager.trialParameters.RECORD_DURATION = int(self.record_duration_input.text) if self.record_duration_input.text.isdigit() else 0
             self.service_manager.trialParameters.UID = self.bacteria_name_input.text
+            self.service_manager.trialParameters.ITERATIONS= self.iterations_input.text
 
             if self.option1.active:
                 self.service_manager.trialParameters.MODE = 'BreathEmulate'
