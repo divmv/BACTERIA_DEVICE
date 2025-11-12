@@ -1,0 +1,44 @@
+Log started on 7/24/2025
+Initialized local system at 19:37:6
+UID: 
+Mode: Static
+Trial: 0
+Duration: 25 seconds
+User: divyav
+-----------------------------------
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 1000 
+Actual Scan Rate: 1000.0 
+19:37:6:: Recording Started
+Total Duration: 25 seconds
+19:37:6:Recording Started
+19:37:07:Time Elapsed (s):1 of 25
+19:37:08:Time Elapsed (s):2 of 25
+19:37:09:Time Elapsed (s):3 of 25
+19:37:10:Time Elapsed (s):4 of 25
+19:37:11:Time Elapsed (s):5 of 25
+19:37:12:Time Elapsed (s):6 of 25
+19:37:13:Time Elapsed (s):7 of 25
+19:37:14:Time Elapsed (s):8 of 25
+19:37:15:Time Elapsed (s):9 of 25
+19:37:16:Time Elapsed (s):10 of 25
+19:37:17:Time Elapsed (s):11 of 25
+19:37:18:Time Elapsed (s):12 of 25
+19:37:19:Time Elapsed (s):13 of 25
+19:37:20:Time Elapsed (s):14 of 25
+19:37:21:Time Elapsed (s):15 of 25
+19:37:22:Time Elapsed (s):16 of 25
+19:37:23:Time Elapsed (s):17 of 25
+19:37:24:Time Elapsed (s):18 of 25
+19:37:25:Time Elapsed (s):19 of 25
+19:37:26:Time Elapsed (s):20 of 25
+19:37:27:Time Elapsed (s):21 of 25
+19:37:28:Time Elapsed (s):22 of 25
+19:37:29:Time Elapsed (s):23 of 25
+19:37:30:Time Elapsed (s):24 of 25
+19:37:31:Time Elapsed (s):25 of 25
+19:37:31:Recording Ended 
+Data Recording Complete for a Duration of 25s
+Final Data Frame Size:(25000, 4)
