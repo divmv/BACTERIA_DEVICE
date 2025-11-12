@@ -21,29 +21,15 @@ from ServiceManager import ServiceManager
 from DAQManager import DAQManager
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-<<<<<<< HEAD
 # from DataClasses import DeviceFlags
 # from ModeManager import ModeManager
-=======
->>>>>>> 21cb90037cb0d71038ca9daaf58431e6daec4ee0
 
 import os
 import glob
 import csv
-<<<<<<< HEAD
 
 from kivy.uix.behaviors import ButtonBehavior
 
-=======
-import subprocess
-import threading
-
-from kivy.uix.behaviors import ButtonBehavior
-
-RCLONE_REMOTE_NAME = 'pranas_pi'
-ONEDRIVE_PLOTS_PATH = 'BACTERIA_DEVICE_UPLOADS/PlotData/Signals'
-
->>>>>>> 21cb90037cb0d71038ca9daaf58431e6daec4ee0
 class ClickableImage(ButtonBehavior, Image):
     pass
 
@@ -78,22 +64,6 @@ class SignalColumn(BoxLayout):
         self.add_widget(footer)
         '''
 
-<<<<<<< HEAD
-=======
-    def _upload_plot_to_onedrive(self, local_plot_path):
-        remote_destination_path = ONEDRIVE_PLOTS_PATH
-        remote_path = f"{RCLONE_REMOTE_NAME}:{remote_destination_path}"
-
-        command = ['rclone', 'copy', local_plot_path, remote_path]
-        
-        try:
-            result = subprocess.run(command, capture_output=True, text=True, check=True)
-        except subprocess.CalledProcessError as e:
-            print(f"Error uploading plot {os.path.basename(local_plot_path)}: {e.stderr}")
-        except FileNotFoundError:
-            print("Error: rclone command not found. Is rclone installed and in PATH?")
-
->>>>>>> 21cb90037cb0d71038ca9daaf58431e6daec4ee0
     
     def create_header(self):
         header = BoxLayout(orientation='horizontal', size_hint=(1, 0.1), padding=10)
@@ -128,11 +98,7 @@ class SignalColumn(BoxLayout):
 
         self.load_button.bind(on_press=self.on_xpos_press)
         self.button_row.add_widget(self.load_button)
-<<<<<<< HEAD
         '''
-=======
-        
->>>>>>> 21cb90037cb0d71038ca9daaf58431e6daec4ee0
         self.load_button2 = Button(
             text='Ypos',
             size_hint=(None,None),
@@ -142,19 +108,11 @@ class SignalColumn(BoxLayout):
             size=(90, 20),
             # pos_hint={'center_x': 0.6},
             disabled = False
-<<<<<<< HEAD
         )
 
         self.load_button2.bind(on_press=self.on_ypos_press)
         self.button_row.add_widget(self.load_button2)
         '''
-=======
-        )   
-
-        self.load_button2.bind(on_press=self.on_ypos_press)
-        self.button_row.add_widget(self.load_button2)
-        
->>>>>>> 21cb90037cb0d71038ca9daaf58431e6daec4ee0
         self.load_button3 = Button(
             text='Pow',
             size_hint=(None,None),
@@ -219,7 +177,6 @@ class SignalColumn(BoxLayout):
 
 
         # Make the plot and save
-<<<<<<< HEAD
         fig = plt.figure(figsize=(12,6))
         ax = fig.add_subplot(111, projection='3d')
         ax.scatter(xpos_data, ypos_data, pow_data, c='blue', marker='o', s=10, alpha=0.6)
@@ -239,9 +196,6 @@ class SignalColumn(BoxLayout):
         print(f"Saved 3D plot: {plot_path}")
 
         '''
-=======
-        plt.figure(figsize=(12,6))
->>>>>>> 21cb90037cb0d71038ca9daaf58431e6daec4ee0
         plt.scatter(time_array, xpos_data, s=10, c='black')
         plt.xlabel('Time (s)')
         plt.ylabel('Xpos')
@@ -252,29 +206,6 @@ class SignalColumn(BoxLayout):
         plt.savefig(xplot_path, dpi=200)
         plt.close()
         '''
-<<<<<<< HEAD
-=======
-        ax = fig.add_subplot(111, projection='3d')
-        ax.scatter(xpos_data, ypos_data, pow_data, c='blue', marker='o', s=10, alpha=0.6)
-
-        # Set labels for the axes
-        ax.set_xlabel('X Pos')
-        ax.set_ylabel('Time')
-        ax.set_title('Xpos vs Time')
-
-        plt.tight_layout() # Adjust layout to prevent labels/titles from overlapping
-        
-        # Save the 3D plot
-        plot_path = os.path.join(file_path, f"{plot_filename_base}.png")
-        plt.savefig(plot_path, dpi=200)
-        plt.close(fig) # Close the figure to free up memory
-        '''
-        print(f"Saved plot: {xplot_path}")
-
-        self._upload_plot_to_onedrive(xplot_path)
-
-        
->>>>>>> 21cb90037cb0d71038ca9daaf58431e6daec4ee0
         latest_plot_path = self.get_latest_plot_path(file_path)
 
         # timestamp = time.time()
@@ -317,55 +248,6 @@ class SignalColumn(BoxLayout):
         self.graph_container.add_widget(graph_image)
     '''
 
-<<<<<<< HEAD
-=======
-    def on_ypos_press(self, instance):
-        file_path = 'PlotData/Signals'
-        if not os.path.exists(file_path):
-            os.makedirs(file_path)
-            print(f"Created directory: {file_path}")
-
-        if os.path.exists('yposplot.png'):
-            os.remove('yposplot.png')
-        self.graph_container.clear_widgets()
-        self.DAQ.StartDAQ()
-        msg, self.total_samples_read, xpos_data, ypos_data, pow_data = self.DAQ.ScanDAQ(self.total_samples_read, self.nebState)
-        record_dur = self.service_manager.trialParameters.RECORD_DURATION
-        num_samples = len(ypos_data)
-        time_array = np.linspace(0, self.service_manager.trialParameters.RECORD_DURATION, num_samples)
-        print(record_dur)
-
-        timestamp = time.strftime("%Y%m%d_%H%M%S")
-        plot_filename_base = f"yposplot_{timestamp}"
-
-
-        # Make the plot and save
-        plt.figure(figsize=(12,6))
-        plt.scatter(time_array, pow_data, s=10, c='blue')
-        plt.xlabel('Time (s)')
-        plt.ylabel('Y Pos')
-        plt.title('Y Pos vs Time')
-        plt.tight_layout()
-        # plt.savefig('xplot.png', dpi=200)
-        yposplot_path = os.path.join(file_path, f"{plot_filename_base}.png")
-        plt.savefig(yposplot_path, dpi=200)
-        plt.close()
-
-        self._upload_plot_to_onedrive(yposplot_path)
-
-        latest_plot_path = self.get_latest_plot_path(file_path)
-
-        # timestamp = time.time()
-        graph_image = ClickableImage(source=f'{latest_plot_path}', allow_stretch=True, keep_ratio=True)
-        # graph_image = ClickableImage(source='xplot.png', allow_stretch=True, keep_ratio=True)
-        graph_image.size_hint = (0.9, 0.9)
-        graph_image.pos_hint = {'center_x': 0.6, 'center_y': 0.5}
-        graph_image.bind(on_press=self.show_large_image)
-        graph_image.reload()
-        self.graph_container.add_widget(graph_image)
-
-
->>>>>>> 21cb90037cb0d71038ca9daaf58431e6daec4ee0
     def on_pow_press(self, instance):
         file_path = 'PlotData/Signals'
         if not os.path.exists(file_path):
@@ -398,11 +280,6 @@ class SignalColumn(BoxLayout):
         plt.savefig(powplot_path, dpi=200)
         plt.close()
 
-<<<<<<< HEAD
-=======
-        self._upload_plot_to_onedrive(powplot_path)
-
->>>>>>> 21cb90037cb0d71038ca9daaf58431e6daec4ee0
         latest_plot_path = self.get_latest_plot_path(file_path)
 
         # timestamp = time.time()

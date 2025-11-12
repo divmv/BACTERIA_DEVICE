@@ -78,12 +78,7 @@ class DAQManager():
         Pow=[read_result.data[i] for i in range(2,len(read_result.data),3)]
 
         currentDF=pd.DataFrame({'Xpos':Xpos,'Ypos':Ypos,'Pow':Pow,'NebMode':nebMode})
-<<<<<<< HEAD
         self.recDataFrame=self.recDataFrame.append(currentDF,ignore_index=True)
-=======
-        # self.recDataFrame=self.recDataFrame.append(currentDF,ignore_index=True)
-        self.recDataFrame = pd.concat([self.recDataFrame, currentDF], ignore_index=True)
->>>>>>> 21cb90037cb0d71038ca9daaf58431e6daec4ee0
         if samples_read_per_channel > 0:
             endIndex = samples_read_per_channel * self.num_channels - self.num_channels
             stdout.flush()

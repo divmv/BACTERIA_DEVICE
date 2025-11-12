@@ -12,46 +12,24 @@ from kivy.core.window import Window
 from kivy.config import Config
 import numpy as np
 import time
-<<<<<<< HEAD
 from kivy.uix.popup import Popup
 
 
-=======
-from flask import Flask, render_template, request,redirect
-import requests
-from kivy.uix.popup import Popup
-
->>>>>>> 21cb90037cb0d71038ca9daaf58431e6daec4ee0
 from tab1 import Tab1Content
 from tab2 import Tab2Content
 from tab3 import Tab3Content
 from ServiceManager import ServiceManager
 from DAQManager import DAQManager
 import matplotlib.pyplot as plt
-<<<<<<< HEAD
 # from DataClasses import DeviceFlags
 # from ModeManager import ModeManager
-=======
-import DataProcessor as dp
->>>>>>> 21cb90037cb0d71038ca9daaf58431e6daec4ee0
 
 import os
 import glob
 import csv
-<<<<<<< HEAD
 
 from kivy.uix.behaviors import ButtonBehavior
 
-=======
-import subprocess
-import threading
-
-from kivy.uix.behaviors import ButtonBehavior
-
-RCLONE_REMOTE_NAME = 'pranas_pi'
-ONEDRIVE_PLOTS_PATH = 'BACTERIA_DEVICE_UPLOADS/PlotData/Metrics'
-
->>>>>>> 21cb90037cb0d71038ca9daaf58431e6daec4ee0
 class ClickableImage(ButtonBehavior, Image):
     pass
 
@@ -86,22 +64,6 @@ class MetricsColumn(BoxLayout):
         self.add_widget(footer)
         '''
 
-<<<<<<< HEAD
-=======
-    def _upload_plot_to_onedrive(self, local_plot_path):
-        remote_destination_path = ONEDRIVE_PLOTS_PATH
-        remote_path = f"{RCLONE_REMOTE_NAME}:{remote_destination_path}"
-
-        command = ['rclone', 'copy', local_plot_path, remote_path]
-        
-        try:
-            result = subprocess.run(command, capture_output=True, text=True, check=True)
-        except subprocess.CalledProcessError as e:
-            print(f"Error uploading plot {os.path.basename(local_plot_path)}: {e.stderr}")
-        except FileNotFoundError:
-            print("Error: rclone command not found. Is rclone installed and in PATH?")
-
->>>>>>> 21cb90037cb0d71038ca9daaf58431e6daec4ee0
     
     def create_header(self):
         header = BoxLayout(orientation='horizontal', size_hint=(1, 0.1), padding=10)
@@ -193,19 +155,6 @@ class MetricsColumn(BoxLayout):
         self.DAQ.StartDAQ()
         msg, self.total_samples_read, xpos_data, ypos_data, pow_data = self.DAQ.ScanDAQ(self.total_samples_read, self.nebState)
 
-<<<<<<< HEAD
-=======
-        # #----- INCLUDE DATA PROCESSING HERE -----#
-        # # request.method == 'POST'
-        # # folder_path = request.form.get('folder')
-        # folder_path = 'ProcessedData'
-        # if not os.path.exists(folder_path):
-        #     os.makedirs(folder_path)
-        # dp.create_and_move_csv(folder_path)
-
-
-        # #----- DATA PROCESSING ENDS HEREEEEE -----#
->>>>>>> 21cb90037cb0d71038ca9daaf58431e6daec4ee0
         xpos_data = np.array(xpos_data)
         ypos_data = np.array(ypos_data)
         pow_data  = np.array(pow_data)
@@ -230,10 +179,6 @@ class MetricsColumn(BoxLayout):
         bdeplot_path = os.path.join(file_path, f"{plot_filename_base}.png")
         plt.savefig(bdeplot_path, dpi=200)
         plt.close()
-<<<<<<< HEAD
-=======
-        self._upload_plot_to_onedrive(bdeplot_path)
->>>>>>> 21cb90037cb0d71038ca9daaf58431e6daec4ee0
 
         latest_plot_path = self.get_latest_plot_path(file_path)
 
@@ -291,11 +236,6 @@ class MetricsColumn(BoxLayout):
         plt.savefig(sivplot_path, dpi=200)
         plt.close()
 
-<<<<<<< HEAD
-=======
-        self._upload_plot_to_onedrive(sivplot_path)
-
->>>>>>> 21cb90037cb0d71038ca9daaf58431e6daec4ee0
         latest_plot_path = self.get_latest_plot_path(file_path)
 
         graph_image = ClickableImage(source=f'{latest_plot_path}', allow_stretch=True, keep_ratio=True)

@@ -4,7 +4,6 @@ from kivy.app import App
 from ServiceManager import ServiceManager
 from first_UI import HeaderFooterLayout
 from tab1 import Tab1Content
-<<<<<<< HEAD
 
 class PranasApp(App):
     def build(self):
@@ -16,7 +15,7 @@ class PranasApp(App):
         service_manager.gui = layout
 
         return layout
-=======
+
 import time
 
 class PranasApp(App):
@@ -113,7 +112,7 @@ class PranasApp(App):
 
         print("Application shutdown complete.")
     '''
->>>>>>> 21cb90037cb0d71038ca9daaf58431e6daec4ee0
+
 
 if __name__ == '__main__':
     PranasApp().run()
