@@ -7,6 +7,7 @@ class TrialParameters:
         SAMPLING_RATE: int =1000
         BUFFER_SIZE: int = 1000
         RECORD_DURATION: int =10
+        ITERATIONS: int =1
         UID: str = "Test"
         TRIAL: int = 1
         USER: str ="Computer"

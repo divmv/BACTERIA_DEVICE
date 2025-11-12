@@ -2,6 +2,8 @@ from datetime import datetime
 import os
 import pathlib
 import pandas as pd
+import Clustering
+import Processor
 
 
 
@@ -53,8 +55,57 @@ class DataFileManage:
                 return pd.read_csv(path_to_file)
 
         '''
+        # def dataprocessor():
+        #         folder_path = request.form.get('folder')
+        #         #folder_path = folder_path.split('/')
+        #         folder_path = 'ProcessedData/'+folder_path
+        #         result = dp1.create_and_move_csv(folder_path)
+        
+class DataFileManage:
+        def __init__(self,currentService):
+                self.currentService=currentService
+                self.data_file_name='Data_'+str(self.currentService.trialParameters.UID)+\
+                                        '_T'+str(self.currentService.trialParameters.TRIAL)+\
+                                        '_'+currentService.trialParameters.MODE+\
+                                        '_'+currentService.GetCurrentTime(3)+'.csv'
+                self.RecordDataFolder=os.path.join(os.getcwd(),'RecordedData')
 
-        # self.data_file_name="Data_"+str(UID)+'_T'+str(TrialNo)+'_'+Mode
+        def Write2CSV(self,dataFrame):
+                dataFrame.to_csv(os.path.join(self.RecordDataFolder,self.data_file_name),index=True,header=True)
+
+        def ReadFrmCSV(self,fileName):
+                return pd.read_csv(fileName)
+
+        def clustering(self, master_file_path, algorithm='KMS', bacts='["B1","B2","B3"]', conc=0.1, vol=50, slide='S1'):
+                """
+                Run clustering on the master CSV file.
+                
+                Parameters:
+                master_file_path: Path to the master CSV from Processor.py
+                algorithm: 'KMS' | 'dbs' | 'OPS'
+                bacts: List of bacteria names to include (stringified list)
+                conc: concentration filter
+                vol: volume filter
+                slide: slide identifier
+                """
+                if not os.path.isfile(master_file_path):
+                        print(f"Master file not found: {master_file_path}")
+                        return
+
+                # Load master CSV
+                df = pd.read_csv(master_file_path)
+                print(f"Master CSV loaded: {df.shape}")
+
+                # Call your Clustering.Clustered_data function
+                import Clustering
+                try:
+                        result = Clustering.Clustered_data(df, algorithm, bacts, conc, vol, slide)
+                        print(result)
+                except Exception as e:
+                        print(f"Error during clustering: {e}")
+
+
+                # self.data_file_name="Data_"+str(UID)+'_T'+str(TrialNo)+'_'+Mode
 
 class DataTransfer:
     def __init__(self):

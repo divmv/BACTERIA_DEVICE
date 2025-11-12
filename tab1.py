@@ -340,13 +340,14 @@ class OldAnalysisInfoScreen(Screen):
             self.service_manager.trialParameters.TRIAL = int(self.trial_number_input.text) if self.trial_number_input.text.isdigit() else 0
             self.service_manager.trialParameters.RECORD_DURATION = int(self.record_duration_input.text) if self.record_duration_input.text.isdigit() else 0
             self.service_manager.trialParameters.UID = self.bacteria_name_input.text
+            self.service_manager.trialParameters.ITERATIONS = int(self.iteration_input.text) if self.iteration_input.text.isdigit() else 1
 
             if self.option1.active:
-                self.service_manager.trialParameters.MODE = 'BreathEmulate'
+                self.service_manager.trialParameters.MODE = 'Slides'
             elif self.option2.active:
-                self.service_manager.trialParameters.MODE = 'Static'
-            elif self.option3.active:
-                self.service_manager.trialParameters.MODE = 'Combined'
+                self.service_manager.trialParameters.MODE = 'Cuvette'
+            # elif self.option3.active:
+            #     self.service_manager.trialParameters.MODE = 'Combined'
 
             self.service_manager.deviceFlags.CONFIGURE_FLAG = True
             self.service_manager.deviceFlags.START_FLAG = True
@@ -407,6 +408,7 @@ class AnalysisInfoScreen(Screen):
         self.trial_number_input = self._create_input(layout, 'Trial Number:', 'Enter trial number')
         self.bacteria_name_input = self._create_input(layout, 'Bacteria Name:', 'Enter bacteria name')
         self.record_duration_input = self._create_input(layout, 'Record Duration:', 'Enter record duration')
+        self.iteration_input = self._create_input(layout, 'Iterations:', 'Enter iterations')
         
         layout.add_widget(Label(text='Analysis Type:', size_hint_y=None, height=30, font_size=14))
 
@@ -415,12 +417,12 @@ class AnalysisInfoScreen(Screen):
         self.option2 = CheckBox(group='analysis')
         self.option3 = CheckBox(group='analysis')
 
-        radio_box.add_widget(Label(text='BreathEmulate', font_size=14))
+        radio_box.add_widget(Label(text='Slides', font_size=14))
         radio_box.add_widget(self.option1)
-        radio_box.add_widget(Label(text='Static', font_size=14))
+        radio_box.add_widget(Label(text='Cuvette', font_size=14))
         radio_box.add_widget(self.option2)
-        radio_box.add_widget(Label(text='Combined', font_size=14))
-        radio_box.add_widget(self.option3)
+        # radio_box.add_widget(Label(text='Combined', font_size=14))
+        # radio_box.add_widget(self.option3)
         layout.add_widget(radio_box)
         
 
@@ -567,13 +569,14 @@ class AnalysisInfoScreen(Screen):
             self.service_manager.trialParameters.TRIAL = int(self.trial_number_input.text) if self.trial_number_input.text.isdigit() else 0
             self.service_manager.trialParameters.RECORD_DURATION = int(self.record_duration_input.text) if self.record_duration_input.text.isdigit() else 0
             self.service_manager.trialParameters.UID = self.bacteria_name_input.text
+            self.service_manager.trialParameters.ITERATIONS = int(self.iteration_input.text) if self.iteration_input.text.isdigit() else 1
 
             if self.option1.active:
-                self.service_manager.trialParameters.MODE = 'BreathEmulate'
+                self.service_manager.trialParameters.MODE = 'Slides'
             elif self.option2.active:
-                self.service_manager.trialParameters.MODE = 'Static'
-            elif self.option3.active:
-                self.service_manager.trialParameters.MODE = 'Combined'
+                self.service_manager.trialParameters.MODE = 'Cuvette'
+            # elif self.option3.active:
+            #     self.service_manager.trialParameters.MODE = 'Combined'
 
             self.service_manager.deviceFlags.CONFIGURE_FLAG = True
             self.service_manager.deviceFlags.START_FLAG = True
@@ -582,12 +585,12 @@ class AnalysisInfoScreen(Screen):
 
             # Create an instance of the appropriate mode manager based on the selected mode
             mode_class = None
-            if self.service_manager.trialParameters.MODE == 'BreathEmulate':
+            if self.service_manager.trialParameters.MODE == 'Slides':
                 mode_class = BreathEmulationMode
-            elif self.service_manager.trialParameters.MODE == 'Static':
+            elif self.service_manager.trialParameters.MODE == 'Cuvette':
                 mode_class = StaticMode
-            elif self.service_manager.trialParameters.MODE == 'Combined':
-                mode_class = RecordMode # Assuming RecordMode is for Combined based on its print statement
+            # elif self.service_manager.trialParameters.MODE == 'Combined':
+            #     mode_class = RecordMode # Assuming RecordMode is for Combined based on its print statement
             '''
             if mode_class:
                 # Pass the UI update callback to the ModeManager
@@ -645,10 +648,11 @@ class AnalysisInfoScreen(Screen):
         self.trial_number_input.text = str(params.TRIAL)
         self.bacteria_name_input.text = params.UID
         self.record_duration_input.text = str(params.RECORD_DURATION)
+        self.iteration_input.text = str(params.ITERATION)
 
-        self.option1.active = params.MODE == 'BreathEmulate'
-        self.option2.active = params.MODE == 'Static'
-        self.option3.active = params.MODE == 'Combined'
+        self.option1.active = params.MODE == 'Slides'
+        self.option2.active = params.MODE == 'Cuvette'
+        # self.option3.active = params.MODE == 'Combined'
 
 
     
